@@ -26,7 +26,7 @@
     <span class="plan-content">
       <div
         class="course-card"
-        v-for="(course, courseNumber) in props.coursePlans[selectedPlan]"
+        v-for="(course, courseNumber) in props.coursePlans[currentPlan]"
         :key="courseNumber">
         <div class="course-title">
           {{ courseNumber }} {{ course.name }}
@@ -49,11 +49,13 @@ interface Course {
   time: string;
   dates: string;
   location: string;
+  registered?: boolean;
+  inPlan? : boolean;
 }
 
 interface Props {
-  coursePlans: Record<string, Record<string, Course>>
-  selectedPlan: string
+  coursePlans: Record<string, Record<string, Course>>;
+  currentPlan: string;
 }
 const props = defineProps<Props>();
 const emit = defineEmits(["select-plan", "create-new-plan"])
