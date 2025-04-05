@@ -12,9 +12,15 @@
     </TabsBar>
     <PlansPage v-if="currentPage === 'CoursePlansPage'" 
       :coursePlans="coursePlans"
-      :selectedPlan="selectedPlan">
+      :currentPlan="currentPlan"
+      @select-plan="selectPlan">
     </PlansPage>
-    <RegistrationPage v-if="currentPage === 'CourseRegistrationPage'"></RegistrationPage>
+    <RegistrationPage v-if="currentPage === 'CourseRegistrationPage'"
+      :coursePlans="coursePlans"
+      :currentPlan="currentPlan"
+      @register-courses="registerCourses"
+      @drop-courses="dropCourses">
+    </RegistrationPage>
     <SchedulePage v-if="currentPage === 'SchedulePage'"></SchedulePage>
     <SearchPage v-if="currentPage === 'SearchPage'"></SearchPage>
   </div>
@@ -68,6 +74,8 @@ interface Course {
   time: string;
   dates: string;
   location: string;
+  registered?: boolean
+  inPlan? : boolean
 }
 
 const coursePlans = ref<Record<string, Record<string, Course>>>({
@@ -77,14 +85,16 @@ const coursePlans = ref<Record<string, Record<string, Course>>>({
       professor: "David Chiang",
       time: "2:00PM-3:15PM",
       dates: "TTh",
-      location: "DeBartolo Hall 126"
+      location: "DeBartolo Hall 126",
+      inPlan: true
     },
     "CSE 30124": {
       name: "Introduction to Artificial Intelligence",
       professor: "William Theisen",
       time: "3:30PM-4-45PM",
       dates: "MW",
-      location: "DeBartolo Hall 155"
+      location: "DeBartolo Hall 155",
+      inPlan: true
     }
   },
   "Major Reqs": {
@@ -93,26 +103,60 @@ const coursePlans = ref<Record<string, Record<string, Course>>>({
       professor: "David Chiang",
       time: "2:00PM-3:15PM",
       dates: "TTh",
-      location: "DeBartolo Hall 126"
+      location: "DeBartolo Hall 126",
+      inPlan: true
     },
     "CSE 30341": {
       name: "Operating System Principles",
       professor: "Douglas Thain",
       time: "9:30AM-10:45AM",
       dates: "TTh",
-      location: "Pasquerilla Center 107"
+      location: "Pasquerilla Center 107",
+      inPlan: true
     },
     "MATH 30750": {
       name: "Real Analysis",
       professor: "Qing Han",
       time: "9:25AM-10:15AM",
       dates: "MWF",
-      location: "Riley Hall 200"
+      location: "Riley Hall 200",
+      inPlan: true
     }
   }
 })
 
-const selectedPlan = ref<string>("Heavy CS");
+const currentPlan = ref<string>("Heavy CS");
+
+const selectPlan = (planName: string) => {
+  currentPlan.value = planName;
+}
+
+const createNewPlan = (planName: string) => {
+  coursePlans.value[planName] = {}
+  selectPlan(planName)
+}
+
+const dropCourses = (planName: string, courseNumbers: Array<string>, removeFromPlan: boolean) => {
+  if (removeFromPlan) {
+    for (const courseNumber of courseNumbers) {
+      delete coursePlans.value[planName][courseNumber];
+    }
+  }
+  else {
+    for (const courseNumber of courseNumbers) {
+      coursePlans.value[planName][courseNumber].registered = false;
+    }
+  }
+}
+
+// ### REGISTRATION ###
+const registerCourses = (planName: string, courseNumbers: Array<string>) => {
+  for (const courseNumber in courseNumbers) {
+    coursePlans.value[planName][courseNumber].registered = true;
+  }
+  currentPlan.value = planName;
+}
+
 </script>
 
 <style>
