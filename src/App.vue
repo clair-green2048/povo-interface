@@ -13,7 +13,8 @@
     <PlansPage v-if="currentPage === 'CoursePlansPage'" 
       :coursePlans="coursePlans"
       :currentPlan="currentPlan"
-      @select-plan="selectPlan">
+      @select-plan="selectPlan"
+      @create-new-plan="createNewPlan">
     </PlansPage>
     <RegistrationPage v-if="currentPage === 'CourseRegistrationPage'"
       :coursePlans="coursePlans"
@@ -21,8 +22,12 @@
       @register-courses="registerCourses"
       @drop-courses="dropCourses">
     </RegistrationPage>
-    <SchedulePage v-if="currentPage === 'SchedulePage'"></SchedulePage>
-    <SearchPage v-if="currentPage === 'SearchPage'"></SearchPage>
+    <SchedulePage v-if="currentPage === 'SchedulePage'"
+      :coursePlans="coursePlans"
+      :currentPlan="currentPlan">
+    </SchedulePage>
+    <SearchPage v-if="currentPage === 'SearchPage'">
+    </SearchPage>
   </div>
 </template>
 
@@ -84,14 +89,14 @@ const coursePlans = ref<Record<string, Record<string, Course>>>({
       name: "Theory of Computing",
       professor: "David Chiang",
       time: "2:00PM-3:15PM",
-      dates: "TTh",
+      dates: "TR",
       location: "DeBartolo Hall 126",
       inPlan: true
     },
     "CSE 30124": {
       name: "Introduction to Artificial Intelligence",
       professor: "William Theisen",
-      time: "3:30PM-4-45PM",
+      time: "3:30PM-4:45PM",
       dates: "MW",
       location: "DeBartolo Hall 155",
       inPlan: true
@@ -102,7 +107,7 @@ const coursePlans = ref<Record<string, Record<string, Course>>>({
       name: "Theory of Computing",
       professor: "David Chiang",
       time: "2:00PM-3:15PM",
-      dates: "TTh",
+      dates: "TR",
       location: "DeBartolo Hall 126",
       inPlan: true
     },
@@ -110,7 +115,7 @@ const coursePlans = ref<Record<string, Record<string, Course>>>({
       name: "Operating System Principles",
       professor: "Douglas Thain",
       time: "9:30AM-10:45AM",
-      dates: "TTh",
+      dates: "TR",
       location: "Pasquerilla Center 107",
       inPlan: true
     },

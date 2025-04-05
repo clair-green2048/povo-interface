@@ -61,10 +61,10 @@ const props = defineProps<Props>();
 const emit = defineEmits(["select-plan", "create-new-plan"])
 
 const addNewPlan = ref<boolean>(false)
-const createNewPlan = (planName: string) => {
-  addNewPlan.value = !addNewPlan.value;
-  emit("create-new-plan", planName)
-}
+// const createNewPlan = (planName: string) => {
+//   addNewPlan.value = !addNewPlan.value;
+//   emit("create-new-plan", planName)
+// }
 </script>
 
 <style scoped>
