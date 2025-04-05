@@ -9,6 +9,13 @@ See below for some instructions on getting it running!
 npm install
 ```
 
+## Extra Package Setup Needed
+```
+npm install vue-cal@next
+npm install @vue/cli
+vue add typescript
+```
+
 ### Compiles and hot-reloads for development
 ```
 npm run serve
