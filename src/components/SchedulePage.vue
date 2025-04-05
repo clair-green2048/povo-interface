@@ -1,11 +1,156 @@
 <template>
-  <button>hello</button>
+  <vue-cal
+    sm
+    :hideWeekends="true"
+    :views-bar="false"
+    :title-bar="false" 
+    :time-from="7 * 60"
+    :time-to="19 * 60"
+    :events="courseEvents">
+    <template #time-cell="{ format12 }">
+      <strong>{{ format12 }}</strong>
+    </template>
+    <template #weekday-heading="{ label, id }">
+      <strong :class="id">{{ label }}</strong>
+    </template>
+    <template #event="{ event }">
+      <div class="custom-event">
+        <strong class="event-title">{{ event.title }}</strong>
+        <div class="event-time">{{ formatDate(event.start, event.end) }}</div>
+        <div class="event-content">{{ event.content }}</div>
+      </div>
+    </template>
+  </vue-cal>
 </template>
 
 <script lang="ts" setup>
+import { VueCal } from 'vue-cal'
+import 'vue-cal/style'
+import { defineProps, computed } from 'vue'
+
+interface Course {
+  name: string;
+  professor: string;
+  time: string;
+  dates: string;
+  location: string;
+  registered?: boolean;
+  inPlan? : boolean;
+}
+
+interface Props {
+  coursePlans: Record<string, Record<string, Course>>;
+  currentPlan: string;
+}
+const props = defineProps<Props>();
+const dayToDate: Record<string, string> = {
+  "M": '2025-03-31',
+  "T": '2025-04-01',
+  "W": '2025-04-02',
+  "R": '2025-04-03',
+  "F": '2025-04-04',
+}
+
+const parseTimeRange = (timeRange: string) => {
+  const convert = (time: string) => {
+    time = time.replace(/(AM|PM)/, ' $1')
+    let [hourStr, minutePart] = time.trim().split(":");
+    console.log(hourStr)
+    console.log(minutePart)
+    let minute = minutePart.slice(0, 2);
+    const isPM = time.includes("PM");
+    let hour = Number(hourStr);
+
+    if (isPM && hour !== 12) hour += 12;
+    if (!isPM && hour === 12) hour = 0;
+
+    return `${hour.toString().padStart(2, "0")}:${minute}`;
+  };
+
+  const [startRaw, endRaw] = timeRange.split("-");
+  const start = convert(startRaw);
+  const end = convert(endRaw);
+
+  return { start, end };
+};
+
+const formatDate = (start: Date, end: Date) => {
+  const options: Intl.DateTimeFormatOptions = {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  };
+
+  const startStr = start.toLocaleTimeString([], options);
+  const endStr = end.toLocaleTimeString([], options);
+
+  return `${startStr} - ${endStr}`;
+};
+
+const courseEvents = computed(() => {
+  const plan = props.coursePlans[props.currentPlan];
+  const events = [];
+
+  for (const courseNumber in plan) {
+    const course = plan[courseNumber];
+    const { start, end } =  parseTimeRange(course.time);
+
+    for (let i = 0; i < course.dates.length; i++) {
+      const date = dayToDate[course.dates[i]];
+
+      if (date) {
+        events.push({
+          title: `${course.name}`,
+          start: new Date(`${date}T${start}`),
+          end: new Date(`${date}T${end}`),
+          content: `${course.location}`,
+          class: "event",
+          background: true
+        })
+      }
+      console.log("Start:", start, "End:", end, "Full:", `${date}T${start}`);
+    }
+  }
+
+  return events;
+})
 
 </script>
 
-<style scoped>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Roboto:wght@100..900&display=swap');
+
+.vuecal {
+  --vuecal-height: 500px;
+  --vuecal-secondary-color:#002349;
+  --vuecal-event-color: #ffffff;
+  --vuecal-base-color: #fbbf24;
+  --vuecal-primary-color: #00843d;
+  cursor: default;
+  font-family: Montserrat, sans-serif;
+  padding: 0 !important;
+  margin: 0 !important;
+
+  font-weight: 700;
+}
+
+.event {
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  overflow: hidden;
+  align-items: center;
+  text-align: center;
+}
+
+.event-title {
+  margin-bottom: 12px; 
+}
+
+.event-time {
+  margin-bottom: 2px; 
+}
+
+
 
 </style>
