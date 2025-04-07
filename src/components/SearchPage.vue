@@ -20,23 +20,24 @@ import { ref } from 'vue';
 // }
 
 // const coursePlaceholders = {
-//   "CSE 30311": {
+//   "CSE 30332": {
 //     name: "Programming Paradigms",
-//     professor: "David Chiang",
+//     professor: "Joanna Cecilia da Silva Santos",
 //     time: "2:00PM-3:15PM",
-//     dates: "TR",
+//     dates: "MW",
 //     location: "DeBartolo Hall 126",
-//     inPlan: true
+//     inPlan: false
 //   },
-//   "CSE 30341": {
-//     name: "Operating System Principles",
-//     professor: "Douglas Thain",
-//     time: "9:30AM-10:45AM",
-//     dates: "TR",
-//     location: "Pasquerilla Center 107",
-//     inPlan: true
+//   "CSE 40113": {
+//     name: "Design/Analysis of Algorithms",
+//     professor: "Erin Chambers",
+//     time: "10:30AM-11:20AM",
+//     dates: "MWF",
+//     location: "Cushing Hall of Engineering 303",
+//     inPlan: false
 //   },
 // }
+//course.professor[0] + ". " + course.professor.split(" ")[course.professor.split(" ").length - 1]
 
 const searchEntered = ref<boolean>(false);
 
