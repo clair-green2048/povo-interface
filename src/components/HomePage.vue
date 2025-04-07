@@ -29,6 +29,7 @@ const emit = defineEmits(["toggle-page"]);
   flex-direction: column;
   gap: 10vh; /* vertical spacing between rows */
   align-items: center; /* optional: center rows horizontally */
+  font-family: 'Montserrat', sans-serif;
 }
 
 .title-button {

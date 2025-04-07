@@ -160,6 +160,7 @@ const dropCourses = () => {
   align-items: center;
   justify-content: space-between;
   border: 1px solid #007bff;
+  font-family: 'Roboto', sans-serif;
 }
 
 .plans-title {
@@ -183,6 +184,7 @@ const dropCourses = () => {
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  font-family: 'Roboto', sans-serif;
 }
 
 .class-entry {
@@ -205,11 +207,13 @@ const dropCourses = () => {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  font-family: 'Roboto', sans-serif;
 }
 
 .class-title {
   font-weight: bold;
   text-decoration: underline;
+  font-family: 'Roboto', sans-serif;
 }
 
 .class-title:hover {
@@ -220,11 +224,13 @@ const dropCourses = () => {
 .class-time {
   font-size: 0.8rem;
   align-self: flex-end;
+  font-family: 'Roboto', sans-serif;
 }
 
 .add-class {
   cursor: pointer;
   border-bottom: 2px solid black;
+  font-family: 'Roboto', sans-serif;
 }
 
 .plus-sign {
@@ -242,6 +248,7 @@ const dropCourses = () => {
   justify-content: space-between;
   padding: 20px;
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
 }
 
 .editing-button-left {

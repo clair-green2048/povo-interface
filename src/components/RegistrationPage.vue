@@ -262,12 +262,14 @@ const registerForClasses = (planName: string, courseNumbers: string[]) => {
   justify-content: space-between;
   height: 100%;
   min-height: 600px;
+  font-family: 'Roboto', sans-serif;
 }
 
 .register-button {
   display: flex;
   margin: auto;
   align-items: center;
+  font-family: 'Roboto', sans-serif;
 }
 
 .register-success {

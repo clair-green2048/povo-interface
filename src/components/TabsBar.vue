@@ -93,6 +93,7 @@ img {
   border: 1px solid black;
   align-items: stretch;
   width: 100%;
+  font-family: 'Roboto', sans-serif;
 }
 
 .tab {
@@ -101,6 +102,7 @@ img {
   justify-content: center;
   align-items: center;
   width: 100%;
+  font-family: 'Roboto', sans-serif;
 }
 
 .add-tab {
@@ -133,6 +135,7 @@ img {
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   z-index: 10;
   min-width: 180px;
+  font-family: 'Roboto', sans-serif;
 }
 
 .add-tab-option {

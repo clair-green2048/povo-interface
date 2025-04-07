@@ -139,7 +139,7 @@ const courseEvents = computed(() => {
   --vuecal-base-color: #fbbf24;
   --vuecal-primary-color: #00843d;
   cursor: default;
-  font-family: Montserrat, sans-serif;
+  font-family: Roboto, sans-serif;
   padding: 0 !important;
   margin: 0 !important;
   font-weight: 700;
