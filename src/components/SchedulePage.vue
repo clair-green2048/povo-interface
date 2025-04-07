@@ -38,6 +38,13 @@ import { VueCal } from 'vue-cal'
 import 'vue-cal/style'
 import { defineProps, computed } from 'vue'
 
+
+interface Props {
+  coursePlans: Record<string, Record<string, Course>>;
+  currentPlan: string;
+}
+const props = defineProps<Props>();
+
 interface Course {
   name: string;
   professor: string;
@@ -48,11 +55,6 @@ interface Course {
   inPlan? : boolean;
 }
 
-interface Props {
-  coursePlans: Record<string, Record<string, Course>>;
-  currentPlan: string;
-}
-const props = defineProps<Props>();
 const dayToDate: Record<string, string> = {
   "M": '2025-03-31',
   "T": '2025-04-01',

@@ -26,7 +26,11 @@
       :coursePlans="coursePlans"
       :currentPlan="currentPlan">
     </SchedulePage>
-    <SearchPage v-if="currentPage === 'SearchPage'">
+    <SearchPage v-if="currentPage === 'SearchPage'"
+    :coursePlans="coursePlans"
+    :currentPlan="currentPlan"
+    @add-course="addCourse"
+    @drop-course="dropCourse">
     </SearchPage>
   </div>
 </template>
@@ -160,6 +164,16 @@ const registerCourses = (planName: string, courseNumbers: Array<string>) => {
     coursePlans.value[planName][courseNumber].registered = true;
   }
   currentPlan.value = planName;
+}
+
+// ### SEARCH ###
+const addCourse = (planName: string, number: string, course: Course) => {
+  course.inPlan = true
+  coursePlans.value[planName][number] = course;
+}
+
+const dropCourse = (planName: string, number: string) => {
+  delete coursePlans.value[planName][number]
 }
 
 </script>

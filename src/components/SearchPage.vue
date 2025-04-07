@@ -1,63 +1,100 @@
 <template>
-  <div class="search-container" v-if="!searchEntered">
-    <h2 class="search-title">What are you searching for?</h2>
-    <textarea class="search-box" placeholder="Ask anything..." @keyup="displayResults"></textarea>
-  </div>
-  <div class="search-entered" v-if="searchEntered">
-    <p class="search-text">
-      Sure! Here are some of the typical classes for the sophomore fall semester of computer science students:
-    </p>
-
-    <div class="course-card">
-      <p class="course-number">1. <i><u>CSE 20221 Logic Design and Sequential Circuits</u></i></p>
-      <p><strong>Time:</strong> TTh 9:30 AM - 10:45 AM</p>
-      <p><strong>Professor:</strong> A. Dingler</p>
-      <button class="info-button">More Info</button>
-      <span class="requirement-tag">CSE Requirement</span>
+  <div>
+    <div class="search-container" v-if="!searchEntered">
+      <div class="search-title">What are you searching for?</div>
+      <textarea class="search-box" placeholder="Ask anything..." @keyup="displayResults"></textarea>
+    </div>
+    <div class="search-entered" v-if="searchEntered">
+      <div class="search-title">
+        Sure! Here are some of the typical courses for a Computer Science major:
+      </div>
+    
+      <div class="course-card" v-for="(course, number) in coursePlaceholders" :key="number">
+        <div class="course-title">
+          <span class="course-code-name">{{ number + " " + course.name }} 
+            <span v-if="course.registered" class="check-icon">&#x2714;</span>
+            <span v-else-if="course.inPlan" class="check-icon outlined">&#x2610;</span>
+          </span>
+          <span class="requirement-tag">CSE Requirement</span>
+        </div>
+        <div class="course-info">
+          <div class="course-dates"><strong>Time:</strong> {{ translateDates(course.time, course.dates) }}</div>
+          <div class="course-professor"><strong>Professor:</strong> {{ course.professor[0] + ". " + course.professor.split(" ")[course.professor.split(" ").length - 1] }}</div>
+          <button class="more-info-btn" @click="openMoreInfo(number, course)">More Info</button>
+        </div>
+      </div>
+      <textarea class="search-box" placeholder="Ask anything..." @keyup="displayResults"></textarea>
+    </div>
+    <div v-if="moreInfo" class="modal-overlay" @click.self="closeMoreInfo">
+      <div class="modal-content">
+        <button class="close-x" @click="closeMoreInfo">X</button>
+        <h2>{{ selectedNumber }} - {{ selectedCourse.name }}</h2>
+        <p><strong>Professor:</strong> {{ selectedCourse.professor }}</p>
+        <p><strong>Time:</strong> {{ selectedCourse.time }}</p>
+        <p><strong>Dates:</strong> {{ selectedCourse.dates }}</p>
+        <p><strong>Location:</strong> {{ selectedCourse.location }}</p>
+        <p><strong>Description:</strong> {{ selectedCourse.description }}</p>
+        <span>
+          <BaseButton :buttonName="'Add Course'" :buttonWidth="250" :buttonHeight="50" v-if="!selectedCourse.inPlan" @click="addCourse(selectedNumber, selectedCourse)"></BaseButton>
+          <BaseButton :buttonName="'Drop Course'" :buttonWidth="250" :buttonHeight="50" v-if="selectedCourse.inPlan" @click="dropCourse(selectedNumber)"></BaseButton>
+        </span>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { defineProps, defineEmits, ref } from 'vue';
+import BaseButton from '../global/BaseButton.vue'
 
-// interface Course {
-//   name: string;
-//   professor: string;
-//   time: string;
-//   dates: string;
-//   location: string;
-//   registered?: boolean
-//   inPlan? : boolean
-// }
+interface Props {
+  coursePlans: Record<string, Record<string, Course>>;
+  currentPlan: string;
+}
+const props = defineProps<Props>();
 
-// const coursePlaceholders = {
-//   "CSE 30332": {
-//     name: "Programming Paradigms",
-//     professor: "Joanna Cecilia da Silva Santos",
-//     time: "2:00PM-3:15PM",
-//     dates: "MW",
-//     location: "DeBartolo Hall 126",
-//     inPlan: false
-//   },
-//   "CSE 40113": {
-//     name: "Design/Analysis of Algorithms",
-//     professor: "Erin Chambers",
-//     time: "10:30AM-11:20AM",
-//     dates: "MWF",
-//     location: "Cushing Hall of Engineering 303",
-//     inPlan: false
-//   },
-//   "CSE 40175": {
-//     name: "Ethical and Professional Issues",
-//     professor: "Kevin Bowyer",
-//     time: "11:00AM-12:15PM",
-//     dates: "TR",
-//     location: "Jordon Hall of Science 105",
-//     inPlan: false
-//   },
-//}
-//course.professor[0] + ". " + course.professor.split(" ")[course.professor.split(" ").length - 1]
+const emit = defineEmits(["add-course", "drop-course"]);
+
+interface Course {
+  name: string;
+  professor: string;
+  time: string;
+  dates: string;
+  location: string;
+  registered?: boolean
+  inPlan? : boolean
+  description?: string
+}
+
+const coursePlaceholders: Record<string, Course> = {
+  "CSE 30332": {
+    name: "Programming Paradigms",
+    professor: "Joanna Cecilia da Silva Santos",
+    time: "2:00PM-3:15PM",
+    dates: "MW",
+    location: "DeBartolo Hall 126",
+    inPlan: false,
+    description: "Programming language overview: imperative and functional languages; logic programming. Scripting languages and tools. Development environments. Multilanguage interfacing. Case studies. Comprehensive programming practice using several languages."
+  },
+  "CSE 40113": {
+    name: "Design/Analysis of Algorithms",
+    professor: "Erin Chambers",
+    time: "10:30AM-11:20AM",
+    dates: "MWF",
+    location: "Cushing Hall of Engineering 303",
+    inPlan: false,
+    description: "Techniques for designing efficient computer algorithms and for analyzing computational costs of algorithms. Common design strategies such as dynamic programming, divide-and-conquer, and Greedy methods. Problem-solving approaches such as sorting, searching, and selection; lower bounds; data structures; algorithms for graph problems; geometric problems; and other selected problems. Computationally intractable problems (NP-completeness)."
+  },
+  "CSE 40175": {
+    name: "Ethical and Professional Issues",
+    professor: "Kevin Bowyer",
+    time: "11:00AM-12:15PM",
+    dates: "TR",
+    location: "Jordon Hall of Science 105",
+    inPlan: false,
+    description: "This course seeks to develop a solid foundation for reasoning about ethical, professional, and social issues that arise in the context of computer science and engineering. Emphasis is placed on identifying appropriate legal, professional and moral contexts and on applying sound critical thinking skills to a problem. Topics covered include professional codes of ethics, safety-critical systems, whistle blowing, privacy and surveillance, freedom of speech, intellectual property, and cross-cultural issues. This course relies heavily on case studies of real-world incidents."
+  },
+}
 
 const searchEntered = ref<boolean>(false);
 const displayResults = (event: KeyboardEvent) => {
@@ -65,6 +102,38 @@ const displayResults = (event: KeyboardEvent) => {
   if (event.key === "Enter") {
     searchEntered.value = true;
   }
+}
+
+const translateDates = (time: string, dates: string) => {
+  if (dates[1] === "R") {
+    dates = "TTh"
+  }
+  return dates + " " + time;
+}
+
+const moreInfo = ref<boolean>(false)
+const selectedCourse = ref<Course>(coursePlaceholders["CSE 40175"])
+const selectedNumber = ref<string>("")
+
+const openMoreInfo = (number: string, course: Course) => {
+  selectedNumber.value = number;
+  selectedCourse.value = course;
+  moreInfo.value = true;
+}
+
+const closeMoreInfo = () => {
+  moreInfo.value = false;
+  selectedCourse.value = coursePlaceholders["CSE 40175"];
+}
+
+const addCourse = (number: string, course: Course) => {
+  moreInfo.value = false;
+  emit("add-course", props.currentPlan, number, course)
+}
+
+const dropCourse = (number: string) => {
+  moreInfo.value = false;
+  emit("drop-course", props.currentPlan, number)
 }
 
 </script>
@@ -77,6 +146,7 @@ const displayResults = (event: KeyboardEvent) => {
   margin-top: 450px;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: auto;
   width: 1000px;
   display: flex;
   flex-direction: column;
@@ -94,8 +164,9 @@ const displayResults = (event: KeyboardEvent) => {
 }
 
 .search-title {
+  margin: 0.75em;
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 700;
   color: #fbbf24;
 }
 
@@ -126,6 +197,43 @@ const displayResults = (event: KeyboardEvent) => {
   align-items: center;
   background-color: #002349;
   border-radius: 10px;
+  padding: 20px;
+  color: white;
+  text-align: left;
+}
+
+.course-card {
+  width: 100%;
+  margin-bottom: 60px;
+}
+
+.course-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-weight: bold;
+  text-decoration: underline;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.course-code-name {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.requirement-tag {
+  font-weight: bold;
+  margin-left: 20px;
+}
+
+.course-info {
+  padding-left: 20px;
+}
+
+.course-dates,
+.course-professor {
+  margin-bottom: 5px;
 }
 
 .search-text {
@@ -133,54 +241,73 @@ const displayResults = (event: KeyboardEvent) => {
   margin-bottom: 20px;
 }
 
-.course-card {
-  margin-bottom: 30px;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 20px;
-  position: relative;
-}
-
-.course-number {
-  font-weight: bold;
-  font-size: 16px;
-  margin-bottom: 8px;
-}
-
-.info-button {
-  background-color: #d3d3d3;
+.more-info-btn {
+  background: none;
   border: none;
-  padding: 8px 16px;
-  font-weight: bold;
-  margin-top: 10px;
+  color: white;
+  text-decoration: underline;
+  font-size: 1rem;
   cursor: pointer;
+  padding: 0;
+  margin-top: 5px;
+  align-self: flex-start;
 }
 
-.requirement-tag {
-  position: absolute;
-  right: 0;
+.more-info-btn:hover {
+  text-decoration: none;
+  color: #c99700;
+}
+
+.modal-overlay {
+  position: fixed;
   top: 0;
-  font-weight: bold;
-  color: #594800;
-}
-
-.theo-philo-grid {
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
-  gap: 40px;
-  margin-top: 10px;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
-.column p {
-  margin: 8px 0;
+.modal-content {
+  position: relative;
+  background-color: #002349;
+  color: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 500px;
+  max-width: 90%;
+  text-align: left;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
-.search-icon {
-  font-size: 18px;
-  margin-left: 10px;
-  border: 1px solid black;
-  background-color: transparent;
+.close-x {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
   cursor: pointer;
-  padding: 2px 6px;
-  border-radius: 2px;
+  font-weight: bold;
+  z-index: 1;
+}
+
+.check-icon {
+  margin-left: 8px;
+  font-size: 1.2rem;
+  color: white;
+  text-decoration: none;
+}
+
+.check-icon.outlined {
+  color: white;
+  -webkit-text-stroke: 1px white;
+  color: transparent;
+  text-decoration: none;
 }
 
 </style>
