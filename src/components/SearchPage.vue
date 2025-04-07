@@ -2,7 +2,27 @@
   <div>
     <div class="search-container" v-if="!searchEntered">
       <div class="search-title">What are you searching for?</div>
-      <textarea class="search-box" placeholder="Ask anything..." @keyup="displayResults"></textarea>
+      <div class="filter-content" v-if="addingFilters">
+        <div v-if="selectedTab === 'Recent Filters'">
+          <p>Recent filters will go here.</p>
+        </div>
+  
+        <div v-if="selectedTab === 'Saved Filters'">
+          <p>Saved filters will go here.</p>
+        </div>
+  
+        <div v-if="selectedTab === 'Add Filter'" class="add-filter-form">
+          <div class="filter-row" v-for="field in filterFields" :key="field.label">
+            <label>{{ field.label }}</label>
+            <input v-model="field.model" type="text" />
+          </div>
+          <button class="add-filter-btn">Add Filter</button>
+        </div>
+      </div>
+      <div class="search-row">
+        <textarea class="search-box" placeholder="Ask anything..." @keyup="displayResults"></textarea>
+        <button class="filter-toggle-btn" @click="addingFilters = !addingFilters">Filters</button>
+      </div>
     </div>
     <div class="search-entered" v-if="searchEntered">
       <div class="search-title">
@@ -32,6 +52,7 @@
         <p><strong>Professor:</strong> {{ selectedCourse.professor }}</p>
         <p><strong>Time:</strong> {{ selectedCourse.time }}</p>
         <p><strong>Dates:</strong> {{ translateDates(selectedCourse.time, selectedCourse.dates).split(" ")[0] }}</p>
+        <p><strong>Credits:</strong> {{ selectedCourse.credits }}</p>
         <p><strong>Location:</strong> {{ selectedCourse.location }}</p>
         <p><strong>Description:</strong> {{ selectedCourse.description }}</p>
         <span>
@@ -61,9 +82,10 @@ interface Course {
   time: string;
   dates: string;
   location: string;
+  description: string
+  credits: string
   registered?: boolean
   inPlan? : boolean
-  description?: string
 }
 
 const coursePlaceholders: Record<string, Course> = {
@@ -74,6 +96,7 @@ const coursePlaceholders: Record<string, Course> = {
     dates: "MW",
     location: "DeBartolo Hall 126",
     inPlan: false,
+    credits: "3",
     description: "Programming language overview: imperative and functional languages; logic programming. Scripting languages and tools. Development environments. Multilanguage interfacing. Case studies. Comprehensive programming practice using several languages."
   },
   "CSE 40113": {
@@ -83,6 +106,7 @@ const coursePlaceholders: Record<string, Course> = {
     dates: "MWF",
     location: "Cushing Hall of Engineering 303",
     inPlan: false,
+    credits: "3",
     description: "Techniques for designing efficient computer algorithms and for analyzing computational costs of algorithms. Common design strategies such as dynamic programming, divide-and-conquer, and Greedy methods. Problem-solving approaches such as sorting, searching, and selection; lower bounds; data structures; algorithms for graph problems; geometric problems; and other selected problems. Computationally intractable problems (NP-completeness)."
   },
   "CSE 40175": {
@@ -92,9 +116,24 @@ const coursePlaceholders: Record<string, Course> = {
     dates: "TR",
     location: "Jordon Hall of Science 105",
     inPlan: false,
+    credits: "3",
     description: "This course seeks to develop a solid foundation for reasoning about ethical, professional, and social issues that arise in the context of computer science and engineering. Emphasis is placed on identifying appropriate legal, professional and moral contexts and on applying sound critical thinking skills to a problem. Topics covered include professional codes of ethics, safety-critical systems, whistle blowing, privacy and surveillance, freedom of speech, intellectual property, and cross-cultural issues. This course relies heavily on case studies of real-world incidents."
   },
 }
+
+const addingFilters = ref<boolean>(false)
+//const tabs = ['Recent Filters', 'Saved Filters', 'Add Filter']
+const selectedTab = ref('Add Filter')
+
+const filterFields = ref([
+  { label: 'Instructor', model: '' },
+  { label: 'Department', model: '' },
+  { label: 'College', model: '' },
+  { label: 'Time', model: '' },
+  { label: 'Days', model: '' },
+  { label: 'Core Req.', model: '' },
+  { label: 'Attributes', model: '' }
+])
 
 const searchEntered = ref<boolean>(false);
 const displayResults = (event: KeyboardEvent) => {
@@ -163,10 +202,17 @@ const dropCourse = (number: string) => {
 }
 
 .search-title {
-  margin: 0.75em;
+  margin: 20px;
   font-size: 24px;
   font-weight: 700;
   color: #fbbf24;
+}
+
+.search-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 .search-box {
@@ -174,7 +220,7 @@ const dropCourse = (number: string) => {
   height: 20px;
   padding: 16px;
   border: 2px solid #807e7e;
-  border-radius: 20px;
+  border-radius: 20px 0 0 20px;
   resize: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 16px;
@@ -182,8 +228,74 @@ const dropCourse = (number: string) => {
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
-  margin-bottom: 1.5em;
+  margin-bottom: 20px;
 }
+
+.filter-container {
+  width: 400px;
+  border: 1px solid #ccc;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-family: sans-serif;
+}
+
+.filter-tabs {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+}
+
+.filter-tab {
+  flex: 1;
+  padding: 10px 12px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.filter-tab.active {
+  background-color: #f0e6ff;
+}
+
+.filter-content {
+  padding: 16px;
+}
+
+.add-filter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-row input {
+  width: 70%;
+  padding: 5px 8px;
+  font-size: 1rem;
+}
+
+.add-filter-btn {
+  align-self: flex-end;
+  margin-top: 10px;
+  padding: 6px 12px;
+  font-weight: bold;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.add-filter-btn:hover {
+  background-color: #45a049;
+}
+
 
 .search-entered {
   margin-top: 30px;

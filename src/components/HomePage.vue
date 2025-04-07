@@ -4,7 +4,7 @@
       <BaseButton :buttonName="'POVO Registration Assistant'" :buttonWidth="828" :buttonHeight="146" :disabled="true"></BaseButton>
     </span>
     <span class="home-buttons">
-      <BaseButton :buttonName="'Create Plan'" :buttonWidth="364" :buttonHeight="146" @click="emit('toggle-page', 'CoursePlansPage')"></BaseButton>
+      <BaseButton :buttonName="'Course Plans'" :buttonWidth="364" :buttonHeight="146" @click="emit('toggle-page', 'CoursePlansPage')"></BaseButton>
       <BaseButton :buttonName="'Course Registration'" :buttonWidth="364" :buttonHeight="146" @click="emit('toggle-page', 'CourseRegistrationPage')"></BaseButton>
     </span>
     <span class="home-buttons">

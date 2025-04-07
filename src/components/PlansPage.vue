@@ -55,6 +55,7 @@
         <p><strong>Professor:</strong> {{ selectedCourse?.professor }}</p>
         <p><strong>Time:</strong> {{ selectedCourse?.time }}</p>
         <p><strong>Dates:</strong> {{ translateDates(selectedCourse?.time, selectedCourse?.dates).split(" ")[0] }}</p>
+        <p><strong>Credits:</strong> {{ selectedCourse?.credits }}</p>
         <p><strong>Location:</strong> {{ selectedCourse?.location }}</p>
         <p><strong>Description:</strong> {{ selectedCourse?.description }}</p>
       </div>
@@ -71,9 +72,10 @@ interface Course {
   time: string;
   dates: string;
   location: string;
+  description: string;
+  credits: string
   registered?: boolean;
   inPlan? : boolean;
-  description?: string;
 }
 
 interface Props {
@@ -166,7 +168,7 @@ const dropCourses = () => {
   color: #f4a300;
   font-size: 48px;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 
 .plan-button {

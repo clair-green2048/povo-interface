@@ -21,8 +21,11 @@
     <RegistrationPage v-if="currentPage === 'CourseRegistrationPage'"
       :coursePlans="coursePlans"
       :currentPlan="currentPlan"
+      :registeredCourses="registeredCourses"
+      @select-plan="selectPlan"
       @register-courses="registerCourses"
-      @drop-courses="dropCourses">
+      @drop-courses="dropCourses"
+      @toggle-page="togglePage">
     </RegistrationPage>
     <SchedulePage v-if="currentPage === 'SchedulePage'"
       :coursePlans="coursePlans"
@@ -85,9 +88,10 @@ interface Course {
   time: string;
   dates: string;
   location: string;
+  credits: string;
+  description: string
   registered?: boolean
   inPlan? : boolean,
-  description?: string
 }
 
 const coursePlans = ref<Record<string, Record<string, Course>>>({
@@ -98,17 +102,19 @@ const coursePlans = ref<Record<string, Record<string, Course>>>({
       time: "2:00PM-3:15PM",
       dates: "TR",
       location: "DeBartolo Hall 126",
+      credits: "3",
+      description: "Introduction to formal languages and automata, computability theory, and complexity theory with the goal of developing understanding of the power and limits of different computational models. Topics covered include: regular languages and finite automata; context-free grammars and pushdown automata; Turing machines; undecidable languages; the classes P and NP; NP completeness",
       inPlan: true,
-      description: "Introduction to formal languages and automata, computability theory, and complexity theory with the goal of developing understanding of the power and limits of different computational models. Topics covered include: regular languages and finite automata; context-free grammars and pushdown automata; Turing machines; undecidable languages; the classes P and NP; NP completeness"
     },
     "CSE 30124": {
       name: "Introduction to Artificial Intelligence",
       professor: "William Theisen",
-      time: "3:30PM-4:45PM",
+      time: "2:00PM-3:15PM",
       dates: "MW",
       location: "DeBartolo Hall 155",
+      credits: "3",
+      description: "Foundational concepts and techniques in AI and machine learning. Historical overview of the field. Search and logic programming. Canonical machine learning tasks and algorithms: supervised and unsupervised learning (classification and regression). Essential concepts from probability and statistics relevant to machine learning. Performance characterization. Modern software environments for machine learning and AI programming. Applications in unsupervised and supervised learning from image and textual data.",
       inPlan: true,
-      description: "Foundational concepts and techniques in AI and machine learning. Historical overview of the field. Search and logic programming. Canonical machine learning tasks and algorithms: supervised and unsupervised learning (classification and regression). Essential concepts from probability and statistics relevant to machine learning. Performance characterization. Modern software environments for machine learning and AI programming. Applications in unsupervised and supervised learning from image and textual data."
     }
   },
   "Major Reqs": {
@@ -119,6 +125,7 @@ const coursePlans = ref<Record<string, Record<string, Course>>>({
       dates: "TR",
       location: "DeBartolo Hall 126",
       inPlan: true,
+      credits: "3",
       description: "Introduction to formal languages and automata, computability theory, and complexity theory with the goal of developing understanding of the power and limits of different computational models. Topics covered include: regular languages and finite automata; context-free grammars and pushdown automata; Turing machines; undecidable languages; the classes P and NP; NP completeness"
     },
     "CSE 30341": {
@@ -128,6 +135,7 @@ const coursePlans = ref<Record<string, Record<string, Course>>>({
       dates: "TR",
       location: "Pasquerilla Center 107",
       inPlan: true,
+      credits: "3",
       description: "Introduction to all aspects of modern operating systems. Topics include process structure and synchronization, interprocess communication, memory management, file systems, security, I/O, and distributed files systems"
     },
     "MATH 30750": {
@@ -137,6 +145,7 @@ const coursePlans = ref<Record<string, Record<string, Course>>>({
       dates: "MWF",
       location: "Riley Hall 200",
       inPlan: true,
+      credits: "3",
       description: "A rigorous treatment of differential and integral calculus. Topics include a review of sequences and continuity, differentiability, Taylor's theorem, integration, the fundamental theorem of Calculus, pointwise and uniform convergence, and power series. Additional topics are likely and will depend on the instructor. Emphasis throughout will be on careful mathematical definitions and thorough understanding of basic results"
     }
   }
@@ -160,9 +169,11 @@ const dropCourses = (planName: string, courseNumbers: Array<string>) => {
 }
 
 // ### REGISTRATION ###
+const registeredCourses = ref<Record<string, Course>>({})
 const registerCourses = (planName: string, courseNumbers: Array<string>) => {
-  for (const courseNumber in courseNumbers) {
+  for (const courseNumber of courseNumbers) {
     coursePlans.value[planName][courseNumber].registered = true;
+    registeredCourses.value[courseNumber] = coursePlans.value[planName][courseNumber]
   }
   currentPlan.value = planName;
 }
