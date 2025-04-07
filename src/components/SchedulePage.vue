@@ -24,6 +24,7 @@
 </template>
 
 <script lang="ts" setup>
+//@ts-ignore
 import { VueCal } from 'vue-cal'
 import 'vue-cal/style'
 import { defineProps, computed } from 'vue'
