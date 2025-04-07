@@ -43,4 +43,5 @@ const emit = defineEmits(["toggle-page"]);
   gap: 40px 200px; /* horizontal space between buttons */
   justify-content: center; /* optional: center buttons in row */
 }
+
 </style>

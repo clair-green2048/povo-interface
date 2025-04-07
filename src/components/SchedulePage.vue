@@ -20,6 +20,15 @@
         <div class="event-content">{{ event.content.split(" ")[0] + " " + event.content.split(" ")[event.content.split(" ").length - 1] }}</div>
       </div>
     </template>
+    <!-- <template #cell="{ cell }">
+      <div class="custom-cell">
+        <div class="date">{{ cell.formattedDate }}</div>
+        <div v-for="event in cell.events" :key="event" class="event">
+          <div v-if="event"></div>
+          {{ event.title }}
+        </div>
+      </div>
+    </template> -->
   </vue-cal>
 </template>
 
@@ -131,9 +140,9 @@ const courseEvents = computed(() => {
   font-family: Montserrat, sans-serif;
   padding: 0 !important;
   margin: 0 !important;
-
   font-weight: 700;
 }
+
 
 .event {
   font-family: Roboto, sans-serif;
@@ -150,6 +159,10 @@ const courseEvents = computed(() => {
 
 .event-time {
   margin-bottom: 2px; 
+}
+
+.custom-cell {
+  background-color: #ffffff;
 }
 
 

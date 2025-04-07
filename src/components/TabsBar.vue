@@ -90,8 +90,7 @@ img {
 
 .tabs-bar {
   display: flex;
-  border: 2px solid black;
-  border-bottom: 1px solid transparent;
+  border: 1px solid black;
   align-items: stretch;
   width: 100%;
 }

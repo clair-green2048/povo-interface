@@ -179,10 +179,10 @@ html, body {
   margin: 0px;
   padding: 0;
 }
-body {
-  background-image: url('./assets/background.png');
-  background-size: cover;        /* make it fill the screen */
-  background-position: center;   /* center the image */
+body { 
+  /*background-image: url('./assets/background.png'); */
+  background-size: cover;        
+  background-position: center;   
   background-repeat: no-repeat;
   background-attachment: fixed;
   overflow: hidden;
