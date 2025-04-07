@@ -17,7 +17,7 @@
       <div class="custom-event">
         <strong class="event-title">{{ event.title }}</strong>
         <div class="event-time">{{ formatDate(event.start, event.end) }}</div>
-        <div class="event-content">{{ event.content }}</div>
+        <div class="event-content">{{ event.content.split(" ")[0] + " " + event.content.split(" ")[event.content.split(" ").length - 1] }}</div>
       </div>
     </template>
   </vue-cal>
