@@ -103,6 +103,7 @@ img {
   align-items: center;
   width: 100%;
   font-family: 'Roboto', sans-serif;
+  font-size: 24px;
 }
 
 .add-tab {

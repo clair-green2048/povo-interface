@@ -224,6 +224,7 @@ const dropCourse = (number: string) => {
   display: flex;
   align-items: flex-start;
   margin-bottom: 10px;
+  font-size: 12px;
 }
 
 .search-box {
@@ -321,6 +322,7 @@ const dropCourse = (number: string) => {
   border-radius: 0px 10px 10px 0px;
   font-weight: bold;
   cursor: pointer;
+  font-size: 12px;
 }
 
 .filter-toggle-btn:hover {

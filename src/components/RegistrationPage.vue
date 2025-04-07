@@ -223,12 +223,13 @@ const registerForClasses = (planName: string, courseNumbers: string[]) => {
   justify-content: space-between;
   align-items: flex-start;
   font-family: 'Roboto', sans-serif;
+  font-size: 18px;
 }
 
 .class-info {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: left;
 }
 
 .class-title {

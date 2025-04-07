@@ -143,6 +143,7 @@ const courseEvents = computed(() => {
   padding: 0 !important;
   margin: 0 !important;
   font-weight: 700;
+  justify-content: center;
 }
 
 

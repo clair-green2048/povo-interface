@@ -174,6 +174,7 @@ const dropCourses = () => {
 
 .plan-button {
   margin-bottom: 20px;
+  font-size: 24px;
 }
 
 
@@ -197,6 +198,7 @@ const dropCourses = () => {
   justify-content: space-between;
   align-items: flex-start;
   font-family: 'Roboto', sans-serif;
+  font-size: 24px;
 }
 
 .class-entry:first-child {
@@ -208,6 +210,7 @@ const dropCourses = () => {
   flex-direction: column;
   justify-content: center;
   font-family: 'Roboto', sans-serif;
+  font-size: 24px
 }
 
 .class-title {
@@ -222,15 +225,17 @@ const dropCourses = () => {
 }
 
 .class-time {
-  font-size: 0.8rem;
   align-self: flex-end;
   font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 12px
 }
 
 .add-class {
   cursor: pointer;
   border-bottom: 2px solid black;
   font-family: 'Roboto', sans-serif;
+  font-size: 24px
 }
 
 .plus-sign {
