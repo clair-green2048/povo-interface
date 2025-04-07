@@ -40,7 +40,7 @@
       </div>
     </div>
     <div class="button-column"> 
-      <BaseButton :buttonName="'Drop Courses'" :buttonWidth="300" :buttonHeight="100" class="register-button" @click="dropCourses"></BaseButton>
+      <BaseButton :buttonName="'Drop Courses'" :buttonWidth="300" :buttonHeight="100" class="register-button" @click="dropCourses(props.currentPlan)"></BaseButton>
       <BaseButton :buttonName="'Register Courses'" :buttonWidth="300" :buttonHeight="100" class="register-button" @click="registerForClasses(props.currentPlan, selectedCourses)"></BaseButton>
       <BaseButton :buttonName="'Register All'" :buttonWidth="300" :buttonHeight="100" class="register-button" @click="registerForClasses(props.currentPlan, Object.keys(props.coursePlans[props.currentPlan]))"></BaseButton>
       <BaseButton :buttonName="'View Schedule'" :buttonWidth="300" :buttonHeight="100" class="register-button" @click="emit('toggle-page', 'SchedulePage')"></BaseButton>
@@ -134,7 +134,6 @@ const selectCourse = (number: string) => {
 
 
 const dropCourses = (planName: string) => {
-  console.log(selectedCourses.value)
   emit("drop-courses", planName, selectedCourses.value);
 }
 

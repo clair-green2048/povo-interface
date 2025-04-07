@@ -11,7 +11,7 @@
           <p>Saved filters will go here.</p>
         </div>
   
-        <div v-if="selectedTab === 'Add Filter'" class="add-filter-form">
+        <div class="add-filter-form" v-if="selectedTab === 'Add Filter'">
           <div class="filter-row" v-for="field in filterFields" :key="field.label">
             <label>{{ field.label }}</label>
             <input v-model="field.model" type="text" />
@@ -126,13 +126,13 @@ const addingFilters = ref<boolean>(false)
 const selectedTab = ref('Add Filter')
 
 const filterFields = ref([
-  { label: 'Instructor', model: '' },
-  { label: 'Department', model: '' },
-  { label: 'College', model: '' },
-  { label: 'Time', model: '' },
-  { label: 'Days', model: '' },
-  { label: 'Core Req.', model: '' },
-  { label: 'Attributes', model: '' }
+  { label: 'Professor:', model: '' },
+  { label: 'Department:', model: '' },
+  { label: 'College:', model: '' },
+  { label: 'Time:', model: '' },
+  { label: 'Days:', model: '' },
+  { label: 'Core Reqs:', model: '' },
+  { label: 'Attributes:', model: '' }
 ])
 
 const searchEntered = ref<boolean>(false);
@@ -180,7 +180,7 @@ const dropCourse = (number: string) => {
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Roboto:wght@100..900&display=swap');
 
 .search-container {
-  /*padding-top: 50px; */
+  position: relative;
   margin-top: 450px;
   margin-left: auto;
   margin-right: auto;
@@ -231,35 +231,17 @@ const dropCourse = (number: string) => {
   margin-bottom: 20px;
 }
 
-.filter-container {
-  width: 400px;
-  border: 1px solid #ccc;
-  background: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  font-family: sans-serif;
-}
-
-.filter-tabs {
-  display: flex;
-  border-bottom: 1px solid #ddd;
-}
-
-.filter-tab {
-  flex: 1;
-  padding: 10px 12px;
-  text-align: center;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s ease;
-}
-
-.filter-tab.active {
-  background-color: #f0e6ff;
-}
-
 .filter-content {
+  position: absolute;
+  bottom: 100%; /* position above the row */
+  right: 0;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
   padding: 16px;
+  z-index: 10;
+  border-radius: 8px 8px 0 0;
 }
 
 .add-filter-form {
@@ -275,25 +257,25 @@ const dropCourse = (number: string) => {
 }
 
 .filter-row input {
-  width: 70%;
-  padding: 5px 8px;
-  font-size: 1rem;
+  flex: 1;
+  margin-left: 10px;
+  padding: 6px;
 }
 
 .add-filter-btn {
   align-self: flex-end;
   margin-top: 10px;
   padding: 6px 12px;
-  font-weight: bold;
-  border: none;
   background-color: #4caf50;
   color: white;
-  cursor: pointer;
+  border: none;
   border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .add-filter-btn:hover {
-  background-color: #45a049;
+  background-color: #43a047;
 }
 
 
