@@ -13,7 +13,7 @@ npm install
 ```
 npm install vue-cal@next
 npm install @vue/cli
-vue add typescript 
+vue add typescript
 ```
 
 ### Compiles and hot-reloads for development
