@@ -14,7 +14,9 @@
       :coursePlans="coursePlans"
       :currentPlan="currentPlan"
       @select-plan="selectPlan"
-      @create-new-plan="createNewPlan">
+      @create-new-plan="createNewPlan"
+      @toggle-page="togglePage"
+      @drop-courses="dropCourses">
     </PlansPage>
     <RegistrationPage v-if="currentPage === 'CourseRegistrationPage'"
       :coursePlans="coursePlans"
@@ -84,7 +86,8 @@ interface Course {
   dates: string;
   location: string;
   registered?: boolean
-  inPlan? : boolean
+  inPlan? : boolean,
+  description?: string
 }
 
 const coursePlans = ref<Record<string, Record<string, Course>>>({
@@ -95,7 +98,8 @@ const coursePlans = ref<Record<string, Record<string, Course>>>({
       time: "2:00PM-3:15PM",
       dates: "TR",
       location: "DeBartolo Hall 126",
-      inPlan: true
+      inPlan: true,
+      description: "Introduction to formal languages and automata, computability theory, and complexity theory with the goal of developing understanding of the power and limits of different computational models. Topics covered include: regular languages and finite automata; context-free grammars and pushdown automata; Turing machines; undecidable languages; the classes P and NP; NP completeness"
     },
     "CSE 30124": {
       name: "Introduction to Artificial Intelligence",
@@ -103,7 +107,8 @@ const coursePlans = ref<Record<string, Record<string, Course>>>({
       time: "3:30PM-4:45PM",
       dates: "MW",
       location: "DeBartolo Hall 155",
-      inPlan: true
+      inPlan: true,
+      description: "Foundational concepts and techniques in AI and machine learning. Historical overview of the field. Search and logic programming. Canonical machine learning tasks and algorithms: supervised and unsupervised learning (classification and regression). Essential concepts from probability and statistics relevant to machine learning. Performance characterization. Modern software environments for machine learning and AI programming. Applications in unsupervised and supervised learning from image and textual data."
     }
   },
   "Major Reqs": {
@@ -113,7 +118,8 @@ const coursePlans = ref<Record<string, Record<string, Course>>>({
       time: "2:00PM-3:15PM",
       dates: "TR",
       location: "DeBartolo Hall 126",
-      inPlan: true
+      inPlan: true,
+      description: "Introduction to formal languages and automata, computability theory, and complexity theory with the goal of developing understanding of the power and limits of different computational models. Topics covered include: regular languages and finite automata; context-free grammars and pushdown automata; Turing machines; undecidable languages; the classes P and NP; NP completeness"
     },
     "CSE 30341": {
       name: "Operating System Principles",
@@ -121,7 +127,8 @@ const coursePlans = ref<Record<string, Record<string, Course>>>({
       time: "9:30AM-10:45AM",
       dates: "TR",
       location: "Pasquerilla Center 107",
-      inPlan: true
+      inPlan: true,
+      description: "Introduction to all aspects of modern operating systems. Topics include process structure and synchronization, interprocess communication, memory management, file systems, security, I/O, and distributed files systems"
     },
     "MATH 30750": {
       name: "Real Analysis",
@@ -129,7 +136,8 @@ const coursePlans = ref<Record<string, Record<string, Course>>>({
       time: "9:25AM-10:15AM",
       dates: "MWF",
       location: "Riley Hall 200",
-      inPlan: true
+      inPlan: true,
+      description: "A rigorous treatment of differential and integral calculus. Topics include a review of sequences and continuity, differentiability, Taylor's theorem, integration, the fundamental theorem of Calculus, pointwise and uniform convergence, and power series. Additional topics are likely and will depend on the instructor. Emphasis throughout will be on careful mathematical definitions and thorough understanding of basic results"
     }
   }
 })
@@ -145,16 +153,9 @@ const createNewPlan = (planName: string) => {
   selectPlan(planName)
 }
 
-const dropCourses = (planName: string, courseNumbers: Array<string>, removeFromPlan: boolean) => {
-  if (removeFromPlan) {
-    for (const courseNumber of courseNumbers) {
-      delete coursePlans.value[planName][courseNumber];
-    }
-  }
-  else {
-    for (const courseNumber of courseNumbers) {
-      coursePlans.value[planName][courseNumber].registered = false;
-    }
+const dropCourses = (planName: string, courseNumbers: Array<string>) => {
+  for (const courseNumber of courseNumbers) {
+    delete coursePlans.value[planName][courseNumber];
   }
 }
 

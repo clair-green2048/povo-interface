@@ -25,13 +25,13 @@
       </div>
       <textarea class="search-box" placeholder="Ask anything..." @keyup="displayResults"></textarea>
     </div>
-    <div v-if="moreInfo" class="modal-overlay" @click.self="closeMoreInfo">
+    <div v-if="moreInfo" class="modal-overlay">
       <div class="modal-content">
         <button class="close-x" @click="closeMoreInfo">X</button>
         <h2>{{ selectedNumber }} - {{ selectedCourse.name }}</h2>
         <p><strong>Professor:</strong> {{ selectedCourse.professor }}</p>
         <p><strong>Time:</strong> {{ selectedCourse.time }}</p>
-        <p><strong>Dates:</strong> {{ selectedCourse.dates }}</p>
+        <p><strong>Dates:</strong> {{ translateDates(selectedCourse.time, selectedCourse.dates).split(" ")[0] }}</p>
         <p><strong>Location:</strong> {{ selectedCourse.location }}</p>
         <p><strong>Description:</strong> {{ selectedCourse.description }}</p>
         <span>
@@ -98,7 +98,6 @@ const coursePlaceholders: Record<string, Course> = {
 
 const searchEntered = ref<boolean>(false);
 const displayResults = (event: KeyboardEvent) => {
-  console.log(event.key)
   if (event.key === "Enter") {
     searchEntered.value = true;
   }
@@ -187,7 +186,7 @@ const dropCourse = (number: string) => {
 }
 
 .search-entered {
-  margin-top: 50px;
+  margin-top: 30px;
   margin-left: auto;
   margin-right: auto;
   width: 1000px;
@@ -204,7 +203,7 @@ const dropCourse = (number: string) => {
 
 .course-card {
   width: 100%;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
 }
 
 .course-title {
@@ -298,7 +297,7 @@ const dropCourse = (number: string) => {
 
 .check-icon {
   margin-left: 8px;
-  font-size: 1.2rem;
+  font-size: 12px;
   color: white;
   text-decoration: none;
 }
