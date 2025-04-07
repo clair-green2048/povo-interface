@@ -9,34 +9,34 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-interface Course {
-  name: string;
-  professor: string;
-  time: string;
-  dates: string;
-  location: string;
-  registered?: boolean
-  inPlan? : boolean
-}
+// interface Course {
+//   name: string;
+//   professor: string;
+//   time: string;
+//   dates: string;
+//   location: string;
+//   registered?: boolean
+//   inPlan? : boolean
+// }
 
-const coursePlaceholders = {
-  "CSE 30311": {
-    name: "Programming Paradigms",
-    professor: "David Chiang",
-    time: "2:00PM-3:15PM",
-    dates: "TR",
-    location: "DeBartolo Hall 126",
-    inPlan: true
-  },
-  "CSE 30341": {
-    name: "Operating System Principles",
-    professor: "Douglas Thain",
-    time: "9:30AM-10:45AM",
-    dates: "TR",
-    location: "Pasquerilla Center 107",
-    inPlan: true
-  },
-}
+// const coursePlaceholders = {
+//   "CSE 30311": {
+//     name: "Programming Paradigms",
+//     professor: "David Chiang",
+//     time: "2:00PM-3:15PM",
+//     dates: "TR",
+//     location: "DeBartolo Hall 126",
+//     inPlan: true
+//   },
+//   "CSE 30341": {
+//     name: "Operating System Principles",
+//     professor: "Douglas Thain",
+//     time: "9:30AM-10:45AM",
+//     dates: "TR",
+//     location: "Pasquerilla Center 107",
+//     inPlan: true
+//   },
+// }
 
 const searchEntered = ref<boolean>(false);
 

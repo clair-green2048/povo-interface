@@ -13,8 +13,13 @@ npm install
 ```
 npm install vue-cal@next
 npm install @vue/cli
-vue add typescript
+vue add typescript 
 ```
+
+## Typescript
+Before adding Typescript, make sure you copy all the code in App.vue as this will replace it. Vue will ask you a bunch of questions, and you can just say yes
+to all of them. After this, open App.vue, paste the code from before, and continue. (Or simply return to the previous commit once vue updates the code)
+**In case main.ts gets deleted** simply create a main.ts file in povo-interface/src with the same code as in the github repo
 
 ### Compiles and hot-reloads for development
 ```
