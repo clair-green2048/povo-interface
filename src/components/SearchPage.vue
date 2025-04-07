@@ -2,26 +2,34 @@
   <div>
     <div class="search-container" v-if="!searchEntered">
       <div class="search-title">What are you searching for?</div>
+      <div class="search-row">
+        <textarea class="search-box" placeholder="Ask anything..." @keyup="displayResults"></textarea>
+        <button class="filter-toggle-btn" @click="addingFilters = !addingFilters">Filters</button>
+      </div>
       <div class="filter-content" v-if="addingFilters">
-        <div v-if="selectedTab === 'Recent Filters'">
+        <div class="tab-bar">
+          <BaseTab class="filter-tab" v-for="tab in tabs" 
+            :key="tab" 
+            :tabName="tab" 
+            :isSelected="tab === currentTab"
+            @click="currentTab = tab">
+          </BaseTab>
+      </div>
+        <div v-if="currentTab === 'Recent Filters'">
           <p>Recent filters will go here.</p>
         </div>
   
-        <div v-if="selectedTab === 'Saved Filters'">
+        <div v-if="currentTab === 'Saved Filters'">
           <p>Saved filters will go here.</p>
         </div>
   
-        <div class="add-filter-form" v-if="selectedTab === 'Add Filter'">
+        <div class="add-filter-form" v-if="currentTab === 'Add Filter'">
           <div class="filter-row" v-for="field in filterFields" :key="field.label">
             <label>{{ field.label }}</label>
             <input v-model="field.model" type="text" />
           </div>
           <button class="add-filter-btn">Add Filter</button>
         </div>
-      </div>
-      <div class="search-row">
-        <textarea class="search-box" placeholder="Ask anything..." @keyup="displayResults"></textarea>
-        <button class="filter-toggle-btn" @click="addingFilters = !addingFilters">Filters</button>
       </div>
     </div>
     <div class="search-entered" v-if="searchEntered">
@@ -43,7 +51,10 @@
           <button class="more-info-btn" @click="openMoreInfo(number, course)">More Info</button>
         </div>
       </div>
-      <textarea class="search-box" placeholder="Ask anything..." @keyup="displayResults"></textarea>
+      <div class="search-row">
+        <textarea class="search-box" placeholder="Ask anything..." @keyup="displayResults"></textarea>
+        <button class="filter-toggle-btn" @click="addingFilters = !addingFilters">Filters</button>
+      </div>
     </div>
     <div v-if="moreInfo" class="modal-overlay">
       <div class="modal-content">
@@ -67,6 +78,7 @@
 <script lang="ts" setup>
 import { defineProps, defineEmits, ref } from 'vue';
 import BaseButton from '../global/BaseButton.vue'
+import BaseTab from '../global/BaseTab.vue'
 
 interface Props {
   coursePlans: Record<string, Record<string, Course>>;
@@ -121,9 +133,9 @@ const coursePlaceholders: Record<string, Course> = {
   },
 }
 
-const addingFilters = ref<boolean>(false)
-//const tabs = ['Recent Filters', 'Saved Filters', 'Add Filter']
-const selectedTab = ref('Add Filter')
+const addingFilters = ref<boolean>(false);
+const tabs = ref<Array<string>>(["Recent Filters", "Saved Filters", "Add Filter"]);
+const currentTab = ref<string>("Add Filter");
 
 const filterFields = ref([
   { label: 'Professor:', model: '' },
@@ -211,7 +223,6 @@ const dropCourse = (number: string) => {
 .search-row {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
   margin-bottom: 10px;
 }
 
@@ -231,17 +242,33 @@ const dropCourse = (number: string) => {
   margin-bottom: 20px;
 }
 
-.filter-content {
-  position: absolute;
-  bottom: 100%; /* position above the row */
-  right: 0;
+.tab-bar {
+  display: flex;
   width: 100%;
+  margin-bottom: 12px;
+}
+
+.tab-bar > * {
+  flex: 1;
+  text-align: center;
+}
+
+.filter-tab:last-child {
+  border-right: 2px solid black;
+}
+
+.filter-content {
+  position: absolute;             
+  left: 0;
+  bottom: 100%;
+  min-height: 450px;
+  width: 980px;
   background-color: white;
   border: 1px solid #ccc;
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
-  padding: 16px;
   z-index: 10;
-  border-radius: 8px 8px 0 0;
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .add-filter-form {
@@ -256,10 +283,17 @@ const dropCourse = (number: string) => {
   align-items: center;
 }
 
+.filter-row label {
+  width: 120px;              
+  font-weight: bold;
+}
+
 .filter-row input {
-  flex: 1;
-  margin-left: 10px;
-  padding: 6px;
+  flex: 1;                   
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .add-filter-btn {
@@ -278,6 +312,20 @@ const dropCourse = (number: string) => {
   background-color: #43a047;
 }
 
+.filter-toggle-btn {
+  background-color: #4caf50;
+  color: white;
+  width: 60px;
+  height: 56px;
+  border: none;
+  border-radius: 0px 10px 10px 0px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.filter-toggle-btn:hover {
+  background-color: #43a047;
+}
 
 .search-entered {
   margin-top: 30px;
