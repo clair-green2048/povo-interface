@@ -11,7 +11,7 @@ npm install
 
 ## Extra Package Setup Needed
 ```
-npm install vue-cal@next
+npm install -g vue-cal@next
 npm install @vue/cli
 vue add typescript 
 ```
