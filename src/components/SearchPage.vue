@@ -202,7 +202,7 @@ const dropCourse = (number: string) => {
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  background-color: #002349;
+  background-color: #0C2340;
   border-radius: 10px;
 }
 
@@ -264,7 +264,8 @@ const dropCourse = (number: string) => {
   bottom: 100%;
   min-height: 450px;
   width: 980px;
-  background-color: white;
+  background-color: #0C2340;
+  color: white;
   border: 1px solid #ccc;
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
   z-index: 10;
@@ -301,7 +302,7 @@ const dropCourse = (number: string) => {
   align-self: flex-end;
   margin-top: 10px;
   padding: 6px 12px;
-  background-color: #4caf50;
+  background-color: #00843d;
   color: white;
   border: none;
   border-radius: 4px;
@@ -310,11 +311,11 @@ const dropCourse = (number: string) => {
 }
 
 .add-filter-btn:hover {
-  background-color: #43a047;
+  background-color: #13753A;
 }
 
 .filter-toggle-btn {
-  background-color: #4caf50;
+  background-color: #00843d;
   color: white;
   width: 60px;
   height: 56px;
@@ -326,7 +327,7 @@ const dropCourse = (number: string) => {
 }
 
 .filter-toggle-btn:hover {
-  background-color: #43a047;
+  background-color: #13753A;
 }
 
 .search-entered {

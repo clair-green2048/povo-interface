@@ -189,7 +189,7 @@ const dropCourses = () => {
 }
 
 .class-entry {
-  background-color: #2e7d32;
+  background-color: #00843d;
   color: white;
   padding: 30px;
   border: 2px solid black;
@@ -222,6 +222,7 @@ const dropCourses = () => {
 .class-title:hover {
   text-decoration: none;
   cursor: pointer;
+  color: #f4a300;
 }
 
 .class-time {
@@ -246,6 +247,7 @@ const dropCourses = () => {
 .class-checkbox {
   margin-right: 10px;
   vertical-align: middle;
+  text-decoration: none;
 }
 
 .editingButtons {

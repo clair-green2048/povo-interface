@@ -45,17 +45,19 @@
       <BaseButton :buttonName="'Register All'" :buttonWidth="300" :buttonHeight="100" class="register-button" @click="registerForClasses(props.currentPlan, Object.keys(props.coursePlans[props.currentPlan]))"></BaseButton>
       <BaseButton :buttonName="'View Schedule'" :buttonWidth="300" :buttonHeight="100" class="register-button" @click="emit('toggle-page', 'SchedulePage')"></BaseButton>
     </div>
-    <div class="error-check" v-if="registeringCourses">
-      <div class="register-success" v-if="!conflicts.length">
-        Registered!
+    <div class="modal-overlay" v-if="registeringCourses">
+      <div class="modal-content" v-if="!conflicts.length">
+        <button class="close-x" @click="registeringCourses = false">X</button>
+        <h2 class="register-success">Registered!</h2>
       </div>
       <div class="register-failure" v-if="conflicts.length">
-        <div class="error-title">Error: Time Conflicts</div>
-        <ul class="conflict-list">
-          <li v-for="conflict in conflicts" :key="conflict">
-            {{ conflict }} - {{ translateDates(props.coursePlans[props.currentPlan][conflict].time, props.coursePlans[props.currentPlan][conflict].dates) }}
-          </li>
-        </ul>
+        <div class="modal-content" v-if="conflicts.length">
+          <button class="close-x" @click="registeringCourses = false">X</button>
+          <h2 style="color: red; font-weight: 700px;">Error: Time Conflicts</h2>
+          <div v-for="conflict in conflicts" :key="conflict">
+            <strong>{{ conflict }}</strong> - {{ translateDates(props.coursePlans[props.currentPlan][conflict].time, props.coursePlans[props.currentPlan][conflict].dates) }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -132,9 +134,9 @@ const selectCourse = (number: string) => {
   }
 }
 
-
 const dropCourses = (planName: string) => {
   emit("drop-courses", planName, selectedCourses.value);
+  selectedCourses.value = [];
 }
 
 const registeringCourses = ref<boolean>(false)
@@ -160,7 +162,6 @@ const registerForClasses = (planName: string, courseNumbers: string[]) => {
   gap: 20px;
   height: 100%;
   align-items: stretch;
-  justify-content: space-between;
   box-sizing: border-box;
 }
 
@@ -205,16 +206,16 @@ const registerForClasses = (planName: string, courseNumbers: string[]) => {
 }
 
 .classes-block {
-  width: 600px;
+  width: 700px;
   height: 600px;
-  background-color: #0b2341;
+  background-color: #0C2340;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
 }
 
 .class-entry {
-  background-color: #2e7d32;
+  background-color: #00843d;
   color: white;
   padding: 30px;
   border: 2px solid black;
@@ -223,7 +224,7 @@ const registerForClasses = (planName: string, courseNumbers: string[]) => {
   justify-content: space-between;
   align-items: flex-start;
   font-family: 'Roboto', sans-serif;
-  font-size: 18px;
+  font-size: 24px;
 }
 
 .class-info {
@@ -241,16 +242,6 @@ const registerForClasses = (planName: string, courseNumbers: string[]) => {
   align-self: flex-end;
 }
 
-.add-class {
-  cursor: pointer;
-  border-bottom: 2px solid black;
-}
-
-.plus-sign {
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-
 .class-checkbox {
   margin-right: 10px;
   vertical-align: middle;
@@ -264,6 +255,7 @@ const registerForClasses = (planName: string, courseNumbers: string[]) => {
   height: 100%;
   min-height: 600px;
   font-family: 'Roboto', sans-serif;
+  margin-left: 200px;
 }
 
 .register-button {
@@ -273,18 +265,51 @@ const registerForClasses = (planName: string, courseNumbers: string[]) => {
   font-family: 'Roboto', sans-serif;
 }
 
-.register-success {
-  color: green;
-  font-weight: bold;
-  text-align: center;
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
   align-items: center;
-  font-size: 48px;
+  justify-content: center;
+  z-index: 1000;
 }
 
-.register-failure {
-  color: red;
+.modal-content {
+  position: relative;
+  background-color: #002349;
+  color: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 500px;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.close-x {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
   font-weight: bold;
-  text-align: left;
+  z-index: 1;
+}
+
+.register-success {
+  color: #20ad58;
+  font-weight: bold;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
 }
 
 .error-title {
