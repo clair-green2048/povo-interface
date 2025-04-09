@@ -1,11 +1,10 @@
 <template>
   <div class="calendar">
     <vue-cal
-      sm
       :hideWeekends="true"
       :views-bar="false"
       :title-bar="false" 
-      :time-from="7 * 60"
+      :time-from="8 * 60"
       :time-to="19 * 60"
       :events="courseEvents">
       <template #time-cell="{ format12 }">
@@ -21,15 +20,6 @@
           <div class="event-content">{{ event.content.split(" ")[0] + " " + event.content.split(" ")[event.content.split(" ").length - 1] }}</div>
         </div>
       </template>
-      <!-- <template #cell="{ cell }">
-        <div class="custom-cell">
-          <div class="date">{{ cell.formattedDate }}</div>
-          <div v-for="event in cell.events" :key="event" class="event">
-            <div v-if="event"></div>
-            {{ event.title }}
-          </div>
-        </div>
-      </template> -->
     </vue-cal>
   </div>
 </template>
@@ -133,39 +123,41 @@ const courseEvents = computed(() => {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Roboto:wght@100..900&display=swap');
-.calendar {
-  margin-top: 60px;
-}
 
 .vuecal {
-  --vuecal-height: 500px;
+  --vuecal-height: 800px;
   --vuecal-secondary-color:#002349;
   --vuecal-event-color: #ffffff;
   --vuecal-base-color: #fbbf24;
   --vuecal-primary-color: #00843d;
+  --vuecal-border-radius: 0px;
   cursor: default;
-  font-family: Roboto, sans-serif;
-  padding: 0 !important;
-  margin: 0 !important;
+  font-family: Montserrat, sans-serif;
   font-weight: 700;
-  justify-content: center;
+}
+
+.vuecal__time-column {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 
-.event {
+.custom-event {
   font-family: Roboto, sans-serif;
   font-weight: 400;
-  font-size: 16px;
-  overflow: hidden;
+  font-size: 12px;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   text-align: center;
 }
 
-.event-title {
-  margin-bottom: 12px; 
-}
-
 .event-time {
+  margin-top: 4px;
   margin-bottom: 2px; 
 }
 

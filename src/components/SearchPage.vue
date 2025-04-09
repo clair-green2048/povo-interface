@@ -215,14 +215,16 @@ const dropCourse = (number: string) => {
 }
 
 .search-title {
-  margin: 40px;
-  font-size: 24px;
+  margin: 20px;
+  font-size: 48px;
+  font-family: Montserrat, sans-serif;
   font-weight: 700;
   color: #fbbf24;
 }
 
 .search-title.entered {
   margin: 20px;
+  font-size: 24px;
   margin-bottom: 40px;
 }
 
@@ -343,7 +345,7 @@ const dropCourse = (number: string) => {
   width: 1000px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   background-color: #002349;
   border-radius: 10px;
@@ -354,22 +356,24 @@ const dropCourse = (number: string) => {
 }
 
 .course-card {
-  width: 100%;
+  width: 91%;
   margin-bottom: 30px;
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
 }
 
 .course-title {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  font-weight: bold;
+  font-weight: 700;
   color: white;
   margin-bottom: 20px;
 }
 
 .course-code-name {
-  font-weight: bold;
-  text-decoration: underline;
+  font-weight: 700;
+  font-family: Roboto;
 }
 
 .requirement-tag {
@@ -396,7 +400,8 @@ const dropCourse = (number: string) => {
   border: none;
   color: white;
   text-decoration: underline;
-  font-size: 1rem;
+  font-size: 16px;
+  font-weight: 700;
   cursor: pointer;
   padding: 0;
   align-self: flex-start;

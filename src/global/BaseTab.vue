@@ -74,7 +74,7 @@ const closeTab = ref<boolean>(false)
   height: 4px;
   bottom: 0px;
   background-color:#00843d;
-  border: 1.5px solid black; /* Only top border */
+  border: 1.5px solid black; 
   border-bottom: 0px;
   border-radius: 10px 10px 0 0;
 }

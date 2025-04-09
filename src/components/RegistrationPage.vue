@@ -170,13 +170,12 @@ const registerForClasses = (planName: string, courseNumbers: string[]) => {
 }
 
 .plans-title {
-  padding-top: 10px;
+  margin: 20px;
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   color: #f4a300;
   font-size: 48px;
   text-align: center;
-  margin-bottom: 10px;
 }
 
 .plan-selector {
@@ -184,7 +183,7 @@ const registerForClasses = (planName: string, courseNumbers: string[]) => {
   text-align: center;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .plan-selector-label {

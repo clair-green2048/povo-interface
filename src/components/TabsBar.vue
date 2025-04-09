@@ -93,7 +93,6 @@ img {
   border: 1px solid black;
   align-items: stretch;
   width: 100%;
-  font-family: 'Roboto', sans-serif;
 }
 
 .tab {
@@ -104,6 +103,7 @@ img {
   width: 100%;
   font-family: 'Roboto', sans-serif;
   font-size: 24px;
+  color: black;
 }
 
 .add-tab {
