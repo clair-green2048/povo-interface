@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="search-entered" v-if="searchEntered">
-      <div class="search-title">
+      <div class="search-title entered">
         Sure! Here are some of the typical courses for a Computer Science major:
       </div>
     
@@ -66,7 +66,7 @@
         <p><strong>Credits:</strong> {{ selectedCourse.credits }}</p>
         <p><strong>Location:</strong> {{ selectedCourse.location }}</p>
         <p><strong>Description:</strong> {{ selectedCourse.description }}</p>
-        <span>
+        <span class="modal-buttons">
           <BaseButton :buttonName="'Add Course'" :buttonWidth="250" :buttonHeight="50" v-if="!selectedCourse.inPlan" @click="addCourse(selectedNumber, selectedCourse)"></BaseButton>
           <BaseButton :buttonName="'Drop Course'" :buttonWidth="250" :buttonHeight="50" v-if="selectedCourse.inPlan" @click="dropCourse(selectedNumber)"></BaseButton>
         </span>
@@ -203,6 +203,7 @@ const dropCourse = (number: string) => {
   justify-content: flex-end;
   align-items: center;
   background-color: #0C2340;
+  border: 2px solid #807e7e;
   border-radius: 10px;
 }
 
@@ -214,10 +215,15 @@ const dropCourse = (number: string) => {
 }
 
 .search-title {
-  margin: 20px;
+  margin: 40px;
   font-size: 24px;
   font-weight: 700;
   color: #fbbf24;
+}
+
+.search-title.entered {
+  margin: 20px;
+  margin-bottom: 40px;
 }
 
 .search-row {
@@ -266,8 +272,7 @@ const dropCourse = (number: string) => {
   width: 980px;
   background-color: #0C2340;
   color: white;
-  border: 1px solid #ccc;
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  border: 2px solid #807e7e;
   z-index: 10;
   border-radius: 10px;
   padding: 10px;
@@ -319,7 +324,8 @@ const dropCourse = (number: string) => {
   color: white;
   width: 60px;
   height: 56px;
-  border: none;
+  border: 2px solid #807e7e;
+  border-left: none;
   border-radius: 0px 10px 10px 0px;
   font-weight: bold;
   cursor: pointer;
@@ -331,7 +337,7 @@ const dropCourse = (number: string) => {
 }
 
 .search-entered {
-  margin-top: 30px;
+  margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
   width: 1000px;
@@ -341,6 +347,7 @@ const dropCourse = (number: string) => {
   align-items: center;
   background-color: #002349;
   border-radius: 10px;
+  border: 2px solid #807e7e;
   padding: 20px;
   color: white;
   text-align: left;
@@ -356,9 +363,8 @@ const dropCourse = (number: string) => {
   justify-content: space-between;
   align-items: baseline;
   font-weight: bold;
-  text-decoration: underline;
   color: white;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .course-code-name {
@@ -393,7 +399,6 @@ const dropCourse = (number: string) => {
   font-size: 1rem;
   cursor: pointer;
   padding: 0;
-  margin-top: 5px;
   align-self: flex-start;
 }
 
@@ -418,13 +423,17 @@ const dropCourse = (number: string) => {
 .modal-content {
   position: relative;
   background-color: #002349;
+  font-family: Roboto, sans-serif;
   color: white;
   padding: 30px;
   border-radius: 12px;
   width: 500px;
   max-width: 90%;
   text-align: left;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.modal-buttons {
+  margin: 10px;
 }
 
 .close-x {
@@ -445,6 +454,7 @@ const dropCourse = (number: string) => {
   font-size: 12px;
   color: white;
   text-decoration: none;
+  display: inline-block;
 }
 
 .check-icon.outlined {

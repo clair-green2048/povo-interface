@@ -22,7 +22,7 @@
               <input type="checkbox" class="class-checkbox" @click.stop="selectCourse(number)">
               {{ number }} {{ course.name }}
               <span v-if="course.registered" class="check-icon">&#x2714;</span>
-              <span v-else-if="course.inPlan" class="check-icon outlined">&#x2610;</span>
+              <span v-else-if="course.inPlan" class="check-icon outlined">&#9993;</span>
             </span>
           </div>
         </div>
@@ -34,7 +34,7 @@
             <input type="checkbox" class="class-checkbox" @click.stop="selectCourse(number)">
             {{ number }} {{ course.name }}
             <span v-if="course.registered" class="check-icon">&#x2714;</span>
-            <span v-else-if="course.inPlan" class="check-icon outlined">&#x2610;</span>
+            <span v-else-if="course.inPlan" class="check-icon outlined">&#9993;</span>
           </span>
         </div>
       </div>
@@ -163,6 +163,10 @@ const registerForClasses = (planName: string, courseNumbers: string[]) => {
   height: 100%;
   align-items: stretch;
   box-sizing: border-box;
+}
+
+.classes-block {
+  border: 2px solid #807e7e;
 }
 
 .plans-title {
@@ -320,5 +324,20 @@ const registerForClasses = (planName: string, courseNumbers: string[]) => {
 .conflict-list {
   padding: 0;
   list-style: disc;
+}
+
+.check-icon {
+  margin-left: 8px;
+  font-size: 24px;
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.check-icon.outlined {
+  color: white;
+  -webkit-text-stroke: 1px white;
+  color: transparent;
+  text-decoration: none;
 }
 </style>

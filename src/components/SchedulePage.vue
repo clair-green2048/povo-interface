@@ -1,35 +1,37 @@
 <template>
-  <vue-cal
-    sm
-    :hideWeekends="true"
-    :views-bar="false"
-    :title-bar="false" 
-    :time-from="7 * 60"
-    :time-to="19 * 60"
-    :events="courseEvents">
-    <template #time-cell="{ format12 }">
-      <strong>{{ format12 }}</strong>
-    </template>
-    <template #weekday-heading="{ label, id }">
-      <strong :class="id">{{ label }}</strong>
-    </template>
-    <template #event="{ event }">
-      <div class="custom-event">
-        <strong class="event-title">{{ event.title }}</strong>
-        <div class="event-time">{{ formatDate(event.start, event.end) }}</div>
-        <div class="event-content">{{ event.content.split(" ")[0] + " " + event.content.split(" ")[event.content.split(" ").length - 1] }}</div>
-      </div>
-    </template>
-    <!-- <template #cell="{ cell }">
-      <div class="custom-cell">
-        <div class="date">{{ cell.formattedDate }}</div>
-        <div v-for="event in cell.events" :key="event" class="event">
-          <div v-if="event"></div>
-          {{ event.title }}
+  <div class="calendar">
+    <vue-cal
+      sm
+      :hideWeekends="true"
+      :views-bar="false"
+      :title-bar="false" 
+      :time-from="7 * 60"
+      :time-to="19 * 60"
+      :events="courseEvents">
+      <template #time-cell="{ format12 }">
+        <strong>{{ format12 }}</strong>
+      </template>
+      <template #weekday-heading="{ label, id }">
+        <strong :class="id">{{ label }}</strong>
+      </template>
+      <template #event="{ event }">
+        <div class="custom-event">
+          <strong class="event-title">{{ event.title }}</strong>
+          <div class="event-time">{{ formatDate(event.start, event.end) }}</div>
+          <div class="event-content">{{ event.content.split(" ")[0] + " " + event.content.split(" ")[event.content.split(" ").length - 1] }}</div>
         </div>
-      </div>
-    </template> -->
-  </vue-cal>
+      </template>
+      <!-- <template #cell="{ cell }">
+        <div class="custom-cell">
+          <div class="date">{{ cell.formattedDate }}</div>
+          <div v-for="event in cell.events" :key="event" class="event">
+            <div v-if="event"></div>
+            {{ event.title }}
+          </div>
+        </div>
+      </template> -->
+    </vue-cal>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -131,6 +133,9 @@ const courseEvents = computed(() => {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Roboto:wght@100..900&display=swap');
+.calendar {
+  margin-top: 60px;
+}
 
 .vuecal {
   --vuecal-height: 500px;

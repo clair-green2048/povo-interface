@@ -26,7 +26,7 @@
             </template>
             {{ number }} {{ course.name }}
             <span v-if="course.registered" class="check-icon">&#x2714;</span>
-            <span v-else-if="course.inPlan" class="check-icon outlined">&#x2610;</span>
+            <span v-else-if="course.inPlan" class="check-icon outlined">&#9993;</span>
           </span>
         </div>
         <div class="class-time">{{ translateDates(course.time, course.dates) }}</div>
@@ -150,6 +150,7 @@ const dropCourses = () => {
 
 .plans-block {
   background-color: #0b2341;
+  border: 2px solid #807e7e;
   color: white;
   padding: 10px;
   border-radius: 10px;
@@ -159,7 +160,6 @@ const dropCourses = () => {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid #007bff;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -169,23 +169,22 @@ const dropCourses = () => {
   color: #f4a300;
   font-size: 48px;
   text-align: center;
-  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .plan-button {
   margin-bottom: 20px;
-  font-size: 24px;
 }
 
-
-/* Right Classes Block */
 .classes-block {
   width: 1200px;
   background-color: #0b2341;
+  border: 2px solid #807e7e;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  font-family: 'Roboto', sans-serif;
+
 }
 
 .class-entry {
@@ -228,19 +227,20 @@ const dropCourses = () => {
 .class-time {
   align-self: flex-end;
   font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-  font-size: 12px
+  font-weight: 400;
+  font-size: 18px
 }
 
 .add-class {
   cursor: pointer;
   border-bottom: 2px solid black;
   font-family: 'Roboto', sans-serif;
+  font-weight: 700;
   font-size: 24px
 }
 
 .plus-sign {
-  font-size: 1.25rem;
+  font-size: 24px;
   font-weight: bold;
 }
 
@@ -322,9 +322,11 @@ const dropCourses = () => {
 
 .check-icon {
   margin-left: 8px;
-  font-size: 1.2rem;
+  font-size: 24px;
   color: white;
   text-decoration: none;
+  display: inline-block;
+
 }
 
 .check-icon.outlined {
