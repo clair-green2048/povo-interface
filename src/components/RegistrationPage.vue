@@ -210,7 +210,7 @@ const registerForClasses = (planName: string, courseNumbers: string[]) => {
 
 .classes-block {
   width: 700px;
-  height: 600px;
+  height: 620px;
   background-color: #0C2340;
   border-radius: 10px;
   display: flex;
