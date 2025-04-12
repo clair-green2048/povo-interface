@@ -21,20 +21,8 @@ Before adding Typescript, make sure you copy all the code in App.vue as this wil
 to all of them. After this, open App.vue, paste the code from before, and continue. (Or simply return to the previous commit once vue updates the code)
 **In case main.ts gets deleted** simply create a main.ts file in povo-interface/src with the same code as in the github repo
 
-### Compiles and hot-reloads for development
+### Run the prototype
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint 
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
