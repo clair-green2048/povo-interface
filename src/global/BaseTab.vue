@@ -1,17 +1,17 @@
 <template>
   <button class="tab"
   :class="{ active: props.isSelected }"
-  @click="emit('select-tab', props.tabName)"
-  @mouseenter="closeTab = !closeTab"
-  @mouseleave="closeTab = !closeTab">
+  @click="emit('select-tab', props.tabName)">
+  <!-- @mouseenter="closeTab = !closeTab"
+  @mouseleave="closeTab = !closeTab"> -->
     <span class="tab-text">{{ formatTabName(props.tabName) }}</span>
-    <span class="close-tab" v-if="closeTab" @click="emit('close-tab', props.tabName)">&#10006;</span>
+    <!-- <span class="close-tab" v-if="closeTab" @click="emit('close-tab', props.tabName)">&#10006;</span> -->
     <div v-if="props.isSelected" class="tab-indicator"></div>
   </button>
 </template>
 
 <script lang="ts" setup>
-import { ref, defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits } from 'vue';
 
 interface Props {
   tabName: string
@@ -24,7 +24,7 @@ const formatTabName = (tabName: string) => {
   return tabName.replace('Page', '').replace(/([a-z])([A-Z])/g, '$1 $2')
 }
 
-const closeTab = ref<boolean>(false)
+// const closeTab = ref<boolean>(false)
 </script>
 
 <style scoped>
@@ -46,12 +46,13 @@ const closeTab = ref<boolean>(false)
 }
 
 .tab:hover {
-  background-color: #f0e6ff;
+  background-color: #b9bcbe;
 }
 
 .tab.active {
   font-weight: bold;
   border-bottom: 2px solid #00843d;
+  background-color: #9fa2a5;
 }
 
 .tab-text {

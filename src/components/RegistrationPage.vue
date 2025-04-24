@@ -40,10 +40,10 @@
       </div>
     </div>
     <div class="button-column"> 
-      <BaseButton :buttonName="'Drop Courses'" :buttonWidth="300" :buttonHeight="100" class="register-button" @click="dropCourses(props.currentPlan)"></BaseButton>
-      <BaseButton :buttonName="'Register Courses'" :buttonWidth="300" :buttonHeight="100" class="register-button" @click="registerForClasses(props.currentPlan, selectedCourses)"></BaseButton>
-      <BaseButton :buttonName="'Register All'" :buttonWidth="300" :buttonHeight="100" class="register-button" @click="registerForClasses(props.currentPlan, Object.keys(props.coursePlans[props.currentPlan]))"></BaseButton>
-      <BaseButton :buttonName="'View Schedule'" :buttonWidth="300" :buttonHeight="100" class="register-button" @click="emit('toggle-page', 'SchedulePage')"></BaseButton>
+      <BaseButton :buttonName="'Drop Selected Courses'" :buttonWidth="400" :buttonHeight="100" class="register-button" @click="dropCourses(props.currentPlan)"></BaseButton>
+      <BaseButton :buttonName="'Register Selected Courses'" :buttonWidth="400" :buttonHeight="100" class="register-button" @click="registerForClasses(props.currentPlan, selectedCourses)"></BaseButton>
+      <BaseButton :buttonName="'Register All'" :buttonWidth="400" :buttonHeight="100" class="register-button" @click="registerForClasses(props.currentPlan, Object.keys(props.coursePlans[props.currentPlan]))"></BaseButton>
+      <BaseButton :buttonName="'View Schedule'" :buttonWidth="400" :buttonHeight="100" class="register-button" @click="emit('toggle-page', 'SchedulePage')"></BaseButton>
     </div>
     <div class="modal-overlay" v-if="registeringCourses">
       <div class="modal-content" v-if="!conflicts.length">
@@ -218,8 +218,8 @@ const registerForClasses = (planName: string, courseNumbers: string[]) => {
 }
 
 .class-entry {
-  background-color: #00843d;
-  color: white;
+  background-color: #d0d3d6;
+  color: black;
   padding: 30px;
   border: 2px solid black;
   border-bottom: none;
@@ -328,14 +328,14 @@ const registerForClasses = (planName: string, courseNumbers: string[]) => {
 .check-icon {
   margin-left: 8px;
   font-size: 24px;
-  color: white;
+  color: black;
   text-decoration: none;
   display: inline-block;
 }
 
 .check-icon.outlined {
-  color: white;
-  -webkit-text-stroke: 1px white;
+  color: black;
+  -webkit-text-stroke: 1px black;
   color: transparent;
   text-decoration: none;
 }

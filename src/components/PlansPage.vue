@@ -4,15 +4,16 @@
       <div class="plans">
         <div class="plans-title">Plans</div>
         <BaseButton v-for="(courses, plan) in props.coursePlans" :key="plan"
+        class="plan-button"
           :buttonName="plan"
           :buttonWidth="250"
           :buttonHeight="80"
-          class="plan-button"
+          :class="{ 'active-plan': props.currentPlan === plan }"
           @click="emit('select-plan', plan)">
         </BaseButton>
         <BaseButton :buttonName="'New Plan +'" :buttonWidth="250" :buttonHeight="80" class="plan-button" @click="addNewPlan = !addNewPlan"></BaseButton>
       </div>
-      <BaseButton :buttonName="'Edit Plan'" :buttonWidth="200" :buttonHeight="50" class="plan-button" @click="editPlan = !editPlan"></BaseButton>
+      <BaseButton v-if="!editPlan" :buttonName="'Edit Plan'" :buttonWidth="200" :buttonHeight="50" class="plan-button" @click="editPlan = !editPlan"></BaseButton>
     </div>
 
     <div class="classes-block">
@@ -57,6 +58,7 @@
         <p><strong>Dates:</strong> {{ translateDates(selectedCourse?.time, selectedCourse?.dates).split(" ")[0] }}</p>
         <p><strong>Credits:</strong> {{ selectedCourse?.credits }}</p>
         <p><strong>Location:</strong> {{ selectedCourse?.location }}</p>
+        <p><strong>Requirements:</strong> {{ selectedCourse?.requirements }}</p>
         <p><strong>Description:</strong> {{ selectedCourse?.description }}</p>
       </div>
   </div>
@@ -73,7 +75,8 @@ interface Course {
   dates: string;
   location: string;
   description: string;
-  credits: string
+  credits: string;
+  requirements: string;
   registered?: boolean;
   inPlan? : boolean;
 }
@@ -177,6 +180,16 @@ const dropCourses = () => {
   margin-bottom: 20px;
 }
 
+.active-plan {
+  border: 2px solid #f4a300;
+  font-weight: 700;
+}
+
+.active-plan:hover {
+  border: 2px solid #f4a300;
+  background-color: #00843d;
+}
+
 .classes-block {
   width: 1200px;
   background-color: #0b2341;
@@ -188,8 +201,8 @@ const dropCourses = () => {
 }
 
 .class-entry {
-  background-color: #00843d;
-  color: white;
+  background-color: #d0d3d6;
+  color: black;
   padding: 30px;
   border: 2px solid black;
   border-bottom: none;
@@ -323,15 +336,15 @@ const dropCourses = () => {
 .check-icon {
   margin-left: 8px;
   font-size: 24px;
-  color: white;
+  color: black;
   text-decoration: none;
   display: inline-block;
 
 }
 
 .check-icon.outlined {
-  color: white;
-  -webkit-text-stroke: 1px white;
+  color: black;
+  -webkit-text-stroke: 1px black;
   color: transparent;
   text-decoration: none;
 }

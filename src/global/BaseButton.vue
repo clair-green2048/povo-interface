@@ -38,7 +38,7 @@ const props = defineProps<Props>();
   font-weight: 500;
   border-radius: 20px;
   background-color: #00843d;
-  border: 1px solid transparent; /* reserve space for the border */
+  border: 1px solid transparent; 
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 

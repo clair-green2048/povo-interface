@@ -51,7 +51,7 @@ import SearchPage from './components/SearchPage.vue';
 
 // ### TABS BAR ###
 const currentPage = ref<string>("HomePage");
-const openTabs = ref<Array<string>>([]);
+const openTabs = ref<Array<string>>(["CoursePlansPage", "CourseRegistrationPage", "SchedulePage", "SearchPage"]);
 const currentTab = ref<string>("");
 
 const togglePage = (pageName: string) => {
@@ -59,9 +59,7 @@ const togglePage = (pageName: string) => {
     currentPage.value = pageName;
     if (pageName != "HomePage") {
       currentTab.value = pageName
-      if (!openTabs.value.includes(currentTab.value)) {
-        openTabs.value.push(currentTab.value)
-      }
+      openTabs.value = ["CoursePlansPage", "CourseRegistrationPage", "SchedulePage", "SearchPage"]
     }
     else {
       openTabs.value = []
@@ -87,8 +85,9 @@ interface Course {
   professor: string;
   time: string;
   dates: string;
-  location: string;
   credits: string;
+  location: string;
+  requirements: string;
   description: string
   registered?: boolean
   inPlan? : boolean,
@@ -103,6 +102,7 @@ const coursePlans = ref<Record<string, Record<string, Course>>>({
       dates: "TR",
       location: "DeBartolo Hall 126",
       credits: "3",
+      requirements: "CSE Major Requirement",
       description: "Introduction to formal languages and automata, computability theory, and complexity theory with the goal of developing understanding of the power and limits of different computational models. Topics covered include: regular languages and finite automata; context-free grammars and pushdown automata; Turing machines; undecidable languages; the classes P and NP; NP completeness",
       inPlan: true,
     },
@@ -113,6 +113,7 @@ const coursePlans = ref<Record<string, Record<string, Course>>>({
       dates: "MW",
       location: "DeBartolo Hall 155",
       credits: "3",
+      requirements: "CSE Elective",
       description: "Foundational concepts and techniques in AI and machine learning. Historical overview of the field. Search and logic programming. Canonical machine learning tasks and algorithms: supervised and unsupervised learning (classification and regression). Essential concepts from probability and statistics relevant to machine learning. Performance characterization. Modern software environments for machine learning and AI programming. Applications in unsupervised and supervised learning from image and textual data.",
       inPlan: true,
     }
@@ -126,6 +127,7 @@ const coursePlans = ref<Record<string, Record<string, Course>>>({
       location: "DeBartolo Hall 126",
       inPlan: true,
       credits: "3",
+      requirements: "CSE Major Requirement",
       description: "Introduction to formal languages and automata, computability theory, and complexity theory with the goal of developing understanding of the power and limits of different computational models. Topics covered include: regular languages and finite automata; context-free grammars and pushdown automata; Turing machines; undecidable languages; the classes P and NP; NP completeness"
     },
     "CSE 30341": {
@@ -136,6 +138,7 @@ const coursePlans = ref<Record<string, Record<string, Course>>>({
       location: "Pasquerilla Center 107",
       inPlan: true,
       credits: "3",
+      requirements: "CSE Major Requirement",
       description: "Introduction to all aspects of modern operating systems. Topics include process structure and synchronization, interprocess communication, memory management, file systems, security, I/O, and distributed files systems"
     },
     "MATH 30750": {
@@ -146,6 +149,7 @@ const coursePlans = ref<Record<string, Record<string, Course>>>({
       location: "Riley Hall 200",
       inPlan: true,
       credits: "3",
+      requirements: "CHEM Elective, WKQR Core Quantitative Reasoning",
       description: "A rigorous treatment of differential and integral calculus. Topics include a review of sequences and continuity, differentiability, Taylor's theorem, integration, the fundamental theorem of Calculus, pointwise and uniform convergence, and power series. Additional topics are likely and will depend on the instructor. Emphasis throughout will be on careful mathematical definitions and thorough understanding of basic results"
     }
   }

@@ -43,7 +43,7 @@
             <span v-if="course.registered" class="check-icon">&#x2714;</span>
             <span v-else-if="course.inPlan" class="check-icon outlined">&#x2610;</span>
           </span>
-          <span class="requirement-tag">CSE Requirement</span>
+          <span class="requirement-tag">CSE Major Requirement</span>
         </div>
         <div class="course-info">
           <div class="course-dates"><strong>Time:</strong> {{ translateDates(course.time, course.dates) }}</div>
@@ -52,7 +52,7 @@
         </div>
       </div>
       <div class="search-row">
-        <textarea class="search-box" placeholder="Ask anything..." @keyup="displayResults"></textarea>
+        <textarea class="search-box" style="margin: 0px;" placeholder="Ask anything..." @keyup="displayResults"></textarea>
         <button class="filter-toggle-btn" @click="addingFilters = !addingFilters">Filters</button>
       </div>
     </div>
@@ -65,6 +65,7 @@
         <p><strong>Dates:</strong> {{ translateDates(selectedCourse.time, selectedCourse.dates).split(" ")[0] }}</p>
         <p><strong>Credits:</strong> {{ selectedCourse.credits }}</p>
         <p><strong>Location:</strong> {{ selectedCourse.location }}</p>
+        <p><strong>Requirements:</strong> {{ selectedCourse.requirements }}</p>
         <p><strong>Description:</strong> {{ selectedCourse.description }}</p>
         <span class="modal-buttons">
           <BaseButton :buttonName="'Add Course'" :buttonWidth="250" :buttonHeight="50" v-if="!selectedCourse.inPlan" @click="addCourse(selectedNumber, selectedCourse)"></BaseButton>
@@ -96,6 +97,7 @@ interface Course {
   location: string;
   description: string
   credits: string
+  requirements: string;
   registered?: boolean
   inPlan? : boolean
 }
@@ -109,6 +111,7 @@ const coursePlaceholders: Record<string, Course> = {
     location: "DeBartolo Hall 126",
     inPlan: false,
     credits: "3",
+    requirements: "CSE Major Requirement",
     description: "Programming language overview: imperative and functional languages; logic programming. Scripting languages and tools. Development environments. Multilanguage interfacing. Case studies. Comprehensive programming practice using several languages."
   },
   "CSE 40113": {
@@ -119,6 +122,7 @@ const coursePlaceholders: Record<string, Course> = {
     location: "Cushing Hall of Engineering 303",
     inPlan: false,
     credits: "3",
+    requirements: "CSE Major Requirement",
     description: "Techniques for designing efficient computer algorithms and for analyzing computational costs of algorithms. Common design strategies such as dynamic programming, divide-and-conquer, and Greedy methods. Problem-solving approaches such as sorting, searching, and selection; lower bounds; data structures; algorithms for graph problems; geometric problems; and other selected problems. Computationally intractable problems (NP-completeness)."
   },
   "CSE 40175": {
@@ -129,6 +133,7 @@ const coursePlaceholders: Record<string, Course> = {
     location: "Jordon Hall of Science 105",
     inPlan: false,
     credits: "3",
+    requirements: "CSE Major Requirement",
     description: "This course seeks to develop a solid foundation for reasoning about ethical, professional, and social issues that arise in the context of computer science and engineering. Emphasis is placed on identifying appropriate legal, professional and moral contexts and on applying sound critical thinking skills to a problem. Topics covered include professional codes of ethics, safety-critical systems, whistle blowing, privacy and surveillance, freedom of speech, intellectual property, and cross-cultural issues. This course relies heavily on case studies of real-world incidents."
   },
 }
@@ -193,7 +198,7 @@ const dropCourse = (number: string) => {
 
 .search-container {
   position: relative;
-  margin-top: 450px;
+  margin-top: 470px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: auto;
@@ -224,8 +229,9 @@ const dropCourse = (number: string) => {
 
 .search-title.entered {
   margin: 20px;
-  font-size: 24px;
+  font-size: 32px;
   margin-bottom: 40px;
+  text-align: center;
 }
 
 .search-row {
@@ -237,7 +243,7 @@ const dropCourse = (number: string) => {
 
 .search-box {
   width: 800px;
-  height: 20px;
+  height: 30px;
   padding: 16px;
   border: 2px solid #807e7e;
   border-radius: 20px 0 0 20px;
@@ -245,7 +251,7 @@ const dropCourse = (number: string) => {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 16px;
   outline: none;
-  font-size: 16px;
+  font-size: 24px;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   margin-bottom: 20px;
@@ -269,8 +275,8 @@ const dropCourse = (number: string) => {
 .filter-content {
   position: absolute;             
   left: 0;
-  bottom: 100%;
-  min-height: 450px;
+  bottom: 105%;
+  min-height: 300px;
   width: 980px;
   background-color: #0C2340;
   color: white;
@@ -307,7 +313,7 @@ const dropCourse = (number: string) => {
 
 .add-filter-btn {
   align-self: flex-end;
-  margin-top: 10px;
+  margin: 10px;
   padding: 6px 12px;
   background-color: #00843d;
   color: white;
@@ -325,7 +331,7 @@ const dropCourse = (number: string) => {
   background-color: #00843d;
   color: white;
   width: 60px;
-  height: 56px;
+  height: 66px;
   border: 2px solid #807e7e;
   border-left: none;
   border-radius: 0px 10px 10px 0px;
@@ -339,10 +345,11 @@ const dropCourse = (number: string) => {
 }
 
 .search-entered {
-  margin-top: 20px;
+  margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
   width: 1000px;
+  height: 700px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -372,6 +379,7 @@ const dropCourse = (number: string) => {
 }
 
 .course-code-name {
+  font-size: 24px;
   font-weight: 700;
   font-family: Roboto;
 }
