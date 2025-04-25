@@ -32,10 +32,11 @@
       :currentPlan="currentPlan">
     </SchedulePage>
     <SearchPage v-if="currentPage === 'SearchPage'"
-    :coursePlans="coursePlans"
-    :currentPlan="currentPlan"
-    @add-course="addCourse"
-    @drop-course="dropCourse">
+      :coursePlans="coursePlans"
+      :currentPlan="currentPlan"
+      @add-course="addCourse"
+      @drop-course="dropCourse"
+      @select-plan="selectPlan">
     </SearchPage>
   </div>
 </template>
@@ -190,6 +191,7 @@ const addCourse = (planName: string, number: string, course: Course) => {
 
 const dropCourse = (planName: string, number: string) => {
   delete coursePlans.value[planName][number]
+  console.log(coursePlans.value[planName]);
 }
 
 </script>

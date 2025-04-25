@@ -37,7 +37,7 @@ const props = defineProps<Props>();
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
   border-radius: 20px;
-  background-color: #00843d;
+  background-color: #12a356;
   border: 1px solid transparent; 
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }

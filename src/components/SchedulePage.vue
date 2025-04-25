@@ -48,11 +48,11 @@ interface Course {
 }
 
 const dayToDate: Record<string, string> = {
-  "M": '2025-04-07',
-  "T": '2025-04-08',
-  "W": '2025-04-09',
-  "R": '2025-04-10',
-  "F": '2025-04-11',
+  "M": '2025-04-21',
+  "T": '2025-04-22',
+  "W": '2025-04-23',
+  "R": '2025-04-24',
+  "F": '2025-04-25',
 }
 
 const parseTimeRange = (timeRange: string) => {
@@ -129,7 +129,7 @@ const courseEvents = computed(() => {
   --vuecal-secondary-color:#002349;
   --vuecal-event-color: #ffffff;
   --vuecal-base-color: #fbbf24;
-  --vuecal-primary-color: #00843d;
+  --vuecal-primary-color: #12a356;
   --vuecal-border-radius: 0px;
   cursor: default;
   font-family: Montserrat, sans-serif;

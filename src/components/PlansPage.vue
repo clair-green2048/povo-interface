@@ -30,10 +30,13 @@
             <span v-else-if="course.inPlan" class="check-icon outlined">&#9993;</span>
           </span>
         </div>
-        <div class="class-time">{{ translateDates(course.time, course.dates) }}</div>
+        <div class="class-time-block">
+          <div class="class-time">{{ translateDates(course.time, course.dates) }}</div>
+          <div class="time-conflicts" v-if="checkForConflicts(course)">Time Conflict: {{ checkForConflicts(course) }}</div>
+        </div>
       </div>
       <div class="class-entry add-class" @click="emit('toggle-page', 'SearchPage')">
-        <span>Add Class</span>
+        <span>Add Class From Search</span>
         <span class="plus-sign">+</span>
       </div>
       <div class="editingButtons" v-if="editPlan">
@@ -104,6 +107,21 @@ const translateDates = (time: string | undefined, dates: string | undefined) => 
     dates = "TTh"
   }
   return dates + " " + time;
+}
+
+const checkForConflicts = (course: Course) => {
+  let conflicts = "";
+  for (const [planNumber, planCourse] of Object.entries(props.coursePlans[props.currentPlan])) {
+    if (translateDates(planCourse.time, planCourse.dates) === translateDates(course.time, course.dates) && planCourse != course) {
+      conflicts += planNumber + ", "
+      console.log(translateDates(planCourse.time, planCourse.dates))
+      console.log(translateDates(course.time, course.dates))
+    }
+  }
+  if (conflicts.length > 0) {
+    return conflicts.slice(0, -2);
+  }
+  return false;
 }
 
 const moreInfo = ref<boolean>(false)
@@ -201,7 +219,7 @@ const dropCourses = () => {
 }
 
 .class-entry {
-  background-color: #d0d3d6;
+  background-color: #e7eaec;
   color: black;
   padding: 30px;
   border: 2px solid black;
@@ -229,6 +247,7 @@ const dropCourses = () => {
   font-weight: bold;
   text-decoration: underline;
   font-family: 'Roboto', sans-serif;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
 }
 
 .class-title:hover {
@@ -237,11 +256,24 @@ const dropCourses = () => {
   color: #f4a300;
 }
 
+.class-timing-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-family: 'Roboto', sans-serif;
+}
+
 .class-time {
-  align-self: flex-end;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   font-size: 18px
+}
+
+.time-conflicts {
+  font-size: 18px;
+  font-weight: 700px;
+  color: rgb(246, 77, 77);
+  margin-top: 4px;
 }
 
 .add-class {
@@ -331,6 +363,11 @@ const dropCourses = () => {
   cursor: pointer;
   font-weight: bold;
   z-index: 1;
+  transition: color 0.3s ;
+}
+
+.close-x:hover {
+  color: rgb(246, 77, 77);
 }
 
 .check-icon {

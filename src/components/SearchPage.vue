@@ -40,8 +40,8 @@
       <div class="course-card" v-for="(course, number) in coursePlaceholders" :key="number">
         <div class="course-title">
           <span class="course-code-name">{{ number + " " + course.name }} 
-            <span v-if="course.registered" class="check-icon">&#x2714;</span>
-            <span v-else-if="course.inPlan" class="check-icon outlined">&#x2610;</span>
+            <span v-if="courseRegistered(number)" class="check-icon">&#x2714;</span>
+            <span v-else-if="courseInPlan(number)" class="check-icon outlined">&#9993;</span>
           </span>
           <span class="requirement-tag">CSE Major Requirement</span>
         </div>
@@ -67,10 +67,24 @@
         <p><strong>Location:</strong> {{ selectedCourse.location }}</p>
         <p><strong>Requirements:</strong> {{ selectedCourse.requirements }}</p>
         <p><strong>Description:</strong> {{ selectedCourse.description }}</p>
-        <span class="modal-buttons">
-          <BaseButton :buttonName="'Add Course'" :buttonWidth="250" :buttonHeight="50" v-if="!selectedCourse.inPlan" @click="addCourse(selectedNumber, selectedCourse)"></BaseButton>
-          <BaseButton :buttonName="'Drop Course'" :buttonWidth="250" :buttonHeight="50" v-if="selectedCourse.inPlan" @click="dropCourse(selectedNumber)"></BaseButton>
-        </span>
+        <p v-if="checkForConflicts(selectedCourse)">This course <strong>does not fit</strong> in the current plan (Time Conflict: {{ checkForConflicts(selectedCourse) }})</p>
+        <p v-if="!checkForConflicts(selectedCourse)">This course <strong>fits</strong> in the current plan!</p>
+        <div class="modal-buttons">
+          <div class="plan-selector">
+            <label for="plan-select" class="plan-selector-label">Select Plan:</label>
+            <select id="plan-select" class="plan-selector-dropdown" :value="currentPlan" @change="selectPlan">
+              <option disabled selected value="">Choose a plan</option>
+              <option
+                v-for="plan in Object.keys(props.coursePlans)"
+                :key="plan"
+                :value="plan">
+                {{ plan }}
+              </option>
+            </select>
+          </div>
+          <BaseButton :buttonName="'Add To Plan'" :buttonWidth="360" :buttonHeight="50" v-if="!courseInPlan(selectedNumber)" @click="addCourse(selectedNumber, selectedCourse)"></BaseButton>
+          <BaseButton :buttonName="'Drop From Plan'" :buttonWidth="360" :buttonHeight="50" v-if="courseInPlan(selectedNumber)" @click="dropCourse(selectedNumber)"></BaseButton>
+        </div>
       </div>
     </div>
   </div>
@@ -87,7 +101,7 @@ interface Props {
 }
 const props = defineProps<Props>();
 
-const emit = defineEmits(["add-course", "drop-course"]);
+const emit = defineEmits(["add-course", "drop-course", "select-plan"]);
 
 interface Course {
   name: string;
@@ -138,6 +152,24 @@ const coursePlaceholders: Record<string, Course> = {
   },
 }
 
+const courseRegistered = (number: string) => {
+  if (Object.keys(props.coursePlans[props.currentPlan]).includes(number)) {
+    if (props.coursePlans[props.currentPlan][number].registered) {
+      return true;
+    }
+  }
+  return false;
+}
+
+const courseInPlan = (number: string) => {
+  if (Object.keys(props.coursePlans[props.currentPlan]).includes(number)) {
+    if (props.coursePlans[props.currentPlan][number].inPlan) {
+      return true;
+    }
+  }
+  return false;
+}
+
 const addingFilters = ref<boolean>(false);
 const tabs = ref<Array<string>>(["Recent Filters", "Saved Filters", "Add Filter"]);
 const currentTab = ref<string>("Add Filter");
@@ -181,6 +213,23 @@ const closeMoreInfo = () => {
   selectedCourse.value = coursePlaceholders["CSE 40175"];
 }
 
+const checkForConflicts = (course: Course) => {
+  let conflicts = "";
+  for (const [planNumber, planCourse] of Object.entries(props.coursePlans[props.currentPlan])) {
+    if (translateDates(planCourse.time, planCourse.dates) === translateDates(course.time, course.dates)) {
+      conflicts += planNumber + ", "
+    }
+  }
+  if (conflicts.length > 0) {
+    return conflicts.slice(0, -2);
+  }
+  return false;
+}
+
+const selectPlan = (event: Event) => {
+  emit('select-plan', (event.target as HTMLSelectElement).value);
+}
+
 const addCourse = (number: string, course: Course) => {
   moreInfo.value = false;
   emit("add-course", props.currentPlan, number, course)
@@ -198,7 +247,7 @@ const dropCourse = (number: string) => {
 
 .search-container {
   position: relative;
-  margin-top: 470px;
+  margin-top: 480px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: auto;
@@ -221,7 +270,7 @@ const dropCourse = (number: string) => {
 
 .search-title {
   margin: 20px;
-  font-size: 48px;
+  font-size: 36px;
   font-family: Montserrat, sans-serif;
   font-weight: 700;
   color: #fbbf24;
@@ -229,7 +278,7 @@ const dropCourse = (number: string) => {
 
 .search-title.entered {
   margin: 20px;
-  font-size: 32px;
+  font-size: 24px;
   margin-bottom: 40px;
   text-align: center;
 }
@@ -243,15 +292,14 @@ const dropCourse = (number: string) => {
 
 .search-box {
   width: 800px;
-  height: 30px;
-  padding: 16px;
+  height: 20px;
+  padding: 18px;
   border: 2px solid #807e7e;
   border-radius: 20px 0 0 20px;
   resize: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 16px;
   outline: none;
-  font-size: 24px;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   margin-bottom: 20px;
@@ -275,7 +323,7 @@ const dropCourse = (number: string) => {
 .filter-content {
   position: absolute;             
   left: 0;
-  bottom: 105%;
+  bottom: 106%;
   min-height: 300px;
   width: 980px;
   background-color: #0C2340;
@@ -315,7 +363,7 @@ const dropCourse = (number: string) => {
   align-self: flex-end;
   margin: 10px;
   padding: 6px 12px;
-  background-color: #00843d;
+  background-color: #12a356;
   color: white;
   border: none;
   border-radius: 4px;
@@ -328,10 +376,10 @@ const dropCourse = (number: string) => {
 }
 
 .filter-toggle-btn {
-  background-color: #00843d;
+  background-color: #12a356;
   color: white;
   width: 60px;
-  height: 66px;
+  height: 60px;
   border: 2px solid #807e7e;
   border-left: none;
   border-radius: 0px 10px 10px 0px;
@@ -349,7 +397,7 @@ const dropCourse = (number: string) => {
   margin-left: auto;
   margin-right: auto;
   width: 1000px;
-  height: 700px;
+  height: 600px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -379,9 +427,25 @@ const dropCourse = (number: string) => {
 }
 
 .course-code-name {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 700;
   font-family: Roboto;
+}
+
+.check-icon {
+  margin-left: 8px;
+  font-size: 18px;
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+
+}
+
+.check-icon.outlined {
+  color: white;
+  -webkit-text-stroke: 1px white;
+  color: transparent;
+  text-decoration: none;
 }
 
 .requirement-tag {
@@ -408,11 +472,12 @@ const dropCourse = (number: string) => {
   border: none;
   color: white;
   text-decoration: underline;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   cursor: pointer;
   padding: 0;
   align-self: flex-start;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
 }
 
 .more-info-btn:hover {
@@ -446,7 +511,40 @@ const dropCourse = (number: string) => {
 }
 
 .modal-buttons {
-  margin: 10px;
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.plan-selector {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.plan-selector-label {
+  font-weight: bold;
+  margin-right: 12px;
+  color: white;
+  font-size: 24px;
+}
+
+.plan-selector-dropdown {
+  padding: 10px 16px;
+  border: 1px solid #ccc;
+  background: white;
+  font-size: 1rem;
+  min-width: 180px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: background-color 0.2s ease;
+}
+
+.plan-selector-dropdown option:hover {
+  background-color: #f0e6ff;
 }
 
 .close-x {
@@ -460,21 +558,10 @@ const dropCourse = (number: string) => {
   cursor: pointer;
   font-weight: bold;
   z-index: 1;
+  transition: color 0.3s;
 }
 
-.check-icon {
-  margin-left: 8px;
-  font-size: 12px;
-  color: white;
-  text-decoration: none;
-  display: inline-block;
+.close-x:hover {
+  color: rgb(246, 77, 77);
 }
-
-.check-icon.outlined {
-  color: white;
-  -webkit-text-stroke: 1px white;
-  color: transparent;
-  text-decoration: none;
-}
-
 </style>

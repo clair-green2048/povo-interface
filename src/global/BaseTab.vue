@@ -46,12 +46,12 @@ const formatTabName = (tabName: string) => {
 }
 
 .tab:hover {
-  background-color: #b9bcbe;
+  background-color: #e7eaec;
 }
 
 .tab.active {
   font-weight: bold;
-  border-bottom: 2px solid #00843d;
+  border-bottom: 2px solid #12a356;
   background-color: #9fa2a5;
 }
 
@@ -74,7 +74,7 @@ const formatTabName = (tabName: string) => {
   width: 30px;
   height: 4px;
   bottom: 0px;
-  background-color:#00843d;
+  background-color:#12a356;
   border: 1.5px solid black; 
   border-bottom: 0px;
   border-radius: 10px 10px 0 0;

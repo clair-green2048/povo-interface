@@ -4,7 +4,7 @@
       <div class="plans-title">Courses</div>
       <div class="plan-selector">
         <label for="plan-select" class="plan-selector-label">Select Plan:</label>
-        <select id="plan-select" class="plan-selector-dropdown" @change="selectPlan">
+        <select id="plan-select" class="plan-selector-dropdown" :value="currentPlan" @change="selectPlan">
           <option disabled selected value="">Choose a plan</option>
           <option
             v-for="plan in Object.keys(props.coursePlans)"
@@ -147,7 +147,6 @@ const registerForClasses = (planName: string, courseNumbers: string[]) => {
   }
   else {
     conflicts.value = checkConflicts;
-    console.log(conflicts.value)
   }
   registeringCourses.value = true
 }
@@ -218,7 +217,7 @@ const registerForClasses = (planName: string, courseNumbers: string[]) => {
 }
 
 .class-entry {
-  background-color: #d0d3d6;
+  background-color: #e7eaec;
   color: black;
   padding: 30px;
   border: 2px solid black;
