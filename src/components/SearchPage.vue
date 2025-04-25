@@ -68,8 +68,8 @@
         <p><strong>Requirements:</strong> {{ selectedCourse.requirements }}</p>
         <p><strong>Description:</strong> {{ selectedCourse.description }}</p>
         <div v-if="!courseInPlan(selectedNumber)">
-          <p v-if="checkForConflicts(selectedCourse)">This course <strong>does not fit</strong> in the current plan (Time Conflict: {{ checkForConflicts(selectedCourse) }})</p>
-          <p v-if="!checkForConflicts(selectedCourse)">This course <strong>fits</strong> in the current plan!</p>
+          <p v-if="checkForConflicts(selectedCourse)">This course <strong class="conflict-indicator">does not fit</strong> in the current plan (Time Conflict: {{ checkForConflicts(selectedCourse) }})</p>
+          <p v-if="!checkForConflicts(selectedCourse)">This course <strong class="no-conflicts">fits</strong> in the current plan!</p>
         </div>
         <div class="modal-buttons">
           <div class="plan-selector">
@@ -517,6 +517,16 @@ const dropCourse = (number: string) => {
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+}
+
+.conflict-indicator {
+  color: red;
+  font-size: 24px;
+}
+
+.no-conflicts {
+  color: #12a356;
+  font-size: 24px;
 }
 
 .plan-selector {
