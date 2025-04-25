@@ -211,7 +211,6 @@ const dropCourses = () => {
 .classes-block {
   width: 1200px;
   background-color: #0b2341;
-  border: 2px solid #807e7e;
   border-radius: 10px;
   display: flex;
   flex-direction: column;

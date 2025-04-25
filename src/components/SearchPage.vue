@@ -67,8 +67,10 @@
         <p><strong>Location:</strong> {{ selectedCourse.location }}</p>
         <p><strong>Requirements:</strong> {{ selectedCourse.requirements }}</p>
         <p><strong>Description:</strong> {{ selectedCourse.description }}</p>
-        <p v-if="checkForConflicts(selectedCourse)">This course <strong>does not fit</strong> in the current plan (Time Conflict: {{ checkForConflicts(selectedCourse) }})</p>
-        <p v-if="!checkForConflicts(selectedCourse)">This course <strong>fits</strong> in the current plan!</p>
+        <div v-if="!courseInPlan(selectedNumber)">
+          <p v-if="checkForConflicts(selectedCourse)">This course <strong>does not fit</strong> in the current plan (Time Conflict: {{ checkForConflicts(selectedCourse) }})</p>
+          <p v-if="!checkForConflicts(selectedCourse)">This course <strong>fits</strong> in the current plan!</p>
+        </div>
         <div class="modal-buttons">
           <div class="plan-selector">
             <label for="plan-select" class="plan-selector-label">Select Plan:</label>
