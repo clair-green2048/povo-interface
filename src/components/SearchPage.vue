@@ -289,7 +289,7 @@ const dropCourse = (number: string) => {
   display: flex;
   align-items: flex-start;
   margin-bottom: 10px;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .search-box {
@@ -465,7 +465,6 @@ const dropCourse = (number: string) => {
 }
 
 .search-text {
-  font-size: 18px;
   margin-bottom: 20px;
 }
 

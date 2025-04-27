@@ -14,7 +14,7 @@
           </option>
         </select>
       </div>
-        <div v-for="(course, number) in filterRegistered" 
+        <!-- <div v-for="(course, number) in filterRegistered" 
           :key="number"
           class="class-entry">
           <div class="class-info" v-if="!props.coursePlans[props.currentPlan][number]">
@@ -25,7 +25,7 @@
               <span v-else-if="course.inPlan" class="check-icon outlined">&#9993;</span>
             </span>
           </div>
-        </div>
+        </div> -->
       <div v-for="(course, number) in props.coursePlans[props.currentPlan]"
         :key="number"
         class="class-entry">
@@ -64,7 +64,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, defineProps, defineEmits } from 'vue'
+import { ref, defineProps, defineEmits } from 'vue'
 import BaseButton from '../global/BaseButton.vue'
 
 interface Course {
@@ -89,9 +89,9 @@ const selectPlan = (event: Event) => {
   emit('select-plan', (event.target as HTMLSelectElement).value);
 }
 
-const filterRegistered = computed(() => {
-  return Object.entries(props.registeredCourses).filter(([number]) => !props.coursePlans[props.currentPlan][number]);
-})
+// const filterRegistered = computed(() => {
+//   return Object.entries(props.registeredCourses).filter(([number]) => !props.coursePlans[props.currentPlan][number]);
+// })
 
 const translateDates = (time: string, dates: string) => {
   if (dates[1] === "R") {

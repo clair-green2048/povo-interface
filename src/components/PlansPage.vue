@@ -314,7 +314,7 @@ const dropCourses = () => {
   width: 200px;
   height: 20px;
   border: 2px solid #807e7e;
-  padding: 8px;
+  padding: 12px;
   border-radius: 20px;
   resize: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
