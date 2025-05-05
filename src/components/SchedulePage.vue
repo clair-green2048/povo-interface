@@ -48,11 +48,11 @@ interface Course {
 }
 
 const dayToDate: Record<string, string> = {
-  "M": '2025-04-21',
-  "T": '2025-04-22',
-  "W": '2025-04-23',
-  "R": '2025-04-24',
-  "F": '2025-04-25',
+  "M": '2025-05-05',
+  "T": '2025-05-06',
+  "W": '2025-05-07',
+  "R": '2025-05-08',
+  "F": '2025-05-09',
 }
 
 const parseTimeRange = (timeRange: string) => {
