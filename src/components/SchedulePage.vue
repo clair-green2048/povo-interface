@@ -21,21 +21,36 @@
         </div>
       </template>
     </vue-cal>
-  </div>
+    <div class="plans-block">
+      <div class="plans">
+        <div class="button-row">
+          <BaseButton v-for="(courses, plan) in props.coursePlans" :key="plan"
+            :buttonName="plan"
+            :buttonWidth="250"
+            :buttonHeight="80"
+            :class="{ 'active-plan': props.currentPlan === plan }"
+            @click="emit('select-plan', plan)">
+          </BaseButton>
+        </div>
+      </div>
+    </div>
+  </div> 
 </template>
 
 <script lang="ts" setup>
 //@ts-ignore
 import { VueCal } from 'vue-cal'
 import 'vue-cal/style'
-import { defineProps, computed } from 'vue'
-
+import { defineProps, defineEmits, computed } from 'vue'
+import BaseButton from '@/global/BaseButton.vue'
 
 interface Props {
   coursePlans: Record<string, Record<string, Course>>;
   currentPlan: string;
 }
 const props = defineProps<Props>();
+const emit = defineEmits(["select-plan"]);
+
 
 interface Course {
   name: string;
@@ -118,19 +133,19 @@ const courseEvents = computed(() => {
 
   return events;
 })
-
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Roboto:wght@100..900&display=swap');
 
 .vuecal {
-  --vuecal-height: 800px;
+  --vuecal-height: 600px;
   --vuecal-secondary-color:#002349;
   --vuecal-event-color: #ffffff;
   --vuecal-base-color: #fbbf24;
   --vuecal-primary-color: #12a356;
   --vuecal-border-radius: 0px;
+  --vuecal-transition-duration: 1s;
   cursor: default;
   font-family: Montserrat, sans-serif;
   font-weight: 700;
@@ -142,7 +157,6 @@ const courseEvents = computed(() => {
   flex-direction: column;
   justify-content: space-between;
 }
-
 
 .custom-event {
   font-family: Roboto, sans-serif;
@@ -164,7 +178,39 @@ const courseEvents = computed(() => {
 .custom-cell {
   background-color: #ffffff;
 }
+</style>
 
+<style scoped>
+.plans-block {
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  font-family: 'Roboto', sans-serif;
+}
 
+.plans {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 20px;
+}
 
+.button-row {
+  display: flex;
+  gap: 40px;
+  flex: 1;
+  justify-content: space-evenly;
+}
+
+.active-plan {
+  border: 2px solid #f4a300;
+  font-weight: 700;
+}
+
+.active-plan:hover {
+  border: 2px solid #f4a300;
+  background-color: #00843d;
+}
 </style>

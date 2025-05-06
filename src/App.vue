@@ -29,7 +29,8 @@
     </RegistrationPage>
     <SchedulePage v-if="currentPage === 'SchedulePage'"
       :coursePlans="coursePlans"
-      :currentPlan="currentPlan">
+      :currentPlan="currentPlan"
+      @select-plan="selectPlan">
     </SchedulePage>
     <SearchPage v-if="currentPage === 'SearchPage'"
       :coursePlans="coursePlans"

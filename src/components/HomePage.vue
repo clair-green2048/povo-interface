@@ -1,7 +1,7 @@
 <template>
   <div class="home-page">
     <span class="title-button">
-      <BaseButton :buttonName="'POVO Registration Assistant'" :buttonWidth="828" :buttonHeight="146" :disabled="true"></BaseButton>
+      <BaseButton :buttonName="'POVO Course Registration'" :buttonWidth="828" :buttonHeight="146" :disabled="true"></BaseButton>
     </span>
     <span class="header-info">Click one of the page buttons below to get started on registration!</span>
     <span class="home-buttons">
