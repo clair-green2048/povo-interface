@@ -14,7 +14,7 @@
         <strong :class="id">{{ label }}</strong>
       </template>
       <template #event="{ event }">
-        <div class="custom-event">
+        <div class="custom-event" @click="findCourse(event.title)">
           <strong class="event-title">{{ event.title }}</strong>
           <div class="event-time">{{ formatDate(event.start, event.end) }}</div>
           <div class="event-content">{{ event.content.split(" ")[0] + " " + event.content.split(" ")[event.content.split(" ").length - 1] }}</div>
@@ -34,6 +34,19 @@
         </div>
       </div>
     </div>
+    <div v-if="moreInfo" class="modal-overlay">
+      <div class="modal-content">
+          <button class="close-x" @click="closeMoreInfo">X</button>
+          <h2>{{ selectedNumber }} - {{ selectedCourse?.name }}</h2>
+          <p><strong>Professor:</strong> {{ selectedCourse?.professor }}</p>
+          <p><strong>Time:</strong> {{ selectedCourse?.time }}</p>
+          <p><strong>Dates:</strong> {{ translateDates(selectedCourse?.time, selectedCourse?.dates).split(" ")[0] }}</p>
+          <p><strong>Credits:</strong> {{ selectedCourse?.credits }}</p>
+          <p><strong>Location:</strong> {{ selectedCourse?.location }}</p>
+          <p><strong>Requirements:</strong> {{ selectedCourse?.requirements }}</p>
+          <p><strong>Description:</strong> {{ selectedCourse?.description }}</p>
+        </div>
+    </div>
   </div> 
 </template>
 
@@ -41,7 +54,7 @@
 //@ts-ignore
 import { VueCal } from 'vue-cal'
 import 'vue-cal/style'
-import { defineProps, defineEmits, computed } from 'vue'
+import { ref, defineProps, defineEmits, computed } from 'vue'
 import BaseButton from '@/global/BaseButton.vue'
 
 interface Props {
@@ -51,13 +64,15 @@ interface Props {
 const props = defineProps<Props>();
 const emit = defineEmits(["select-plan"]);
 
-
 interface Course {
   name: string;
   professor: string;
   time: string;
   dates: string;
   location: string;
+  description: string;
+  credits: string;
+  requirements: string;
   registered?: boolean;
   inPlan? : boolean;
 }
@@ -133,6 +148,36 @@ const courseEvents = computed(() => {
 
   return events;
 })
+
+const moreInfo = ref<boolean>(false)
+const selectedCourse = ref<Course | null>(null)
+const selectedNumber = ref<string>("")
+
+const translateDates = (time: string | undefined, dates: string | undefined) => {
+  if (dates[1] === "R") {
+    dates = "TTh"
+  }
+  return dates + " " + time;
+}
+
+const findCourse = (name: string) => {
+  for (const [number, course] of Object.entries(props.coursePlans[props.currentPlan])) {
+    if (course.name === name) {
+      openMoreInfo(number, course);
+    }
+  }
+}
+
+const openMoreInfo = (number: string, course: Course) => {
+  selectedNumber.value = number;
+  selectedCourse.value = course;
+  moreInfo.value = true;
+}
+
+const closeMoreInfo = () => {
+  moreInfo.value = false;
+  selectedCourse.value = null;
+}
 </script>
 
 <style>
@@ -168,6 +213,12 @@ const courseEvents = computed(() => {
   justify-content: center;
   align-items: center;
   text-align: center;
+  transition: 0.3s ease-in-out;
+}
+
+.custom-event:hover {
+  cursor: pointer;
+  background-color: #13753A;
 }
 
 .event-time {
@@ -212,5 +263,48 @@ const courseEvents = computed(() => {
 .active-plan:hover {
   border: 2px solid #f4a300;
   background-color: #00843d;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  position: relative;
+  background-color: #002349;
+  color: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 500px;
+  max-width: 90%;
+  text-align: left;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.close-x {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 1;
+  transition: color 0.3s ;
+}
+
+.close-x:hover {
+  color: rgb(246, 77, 77);
 }
 </style>
